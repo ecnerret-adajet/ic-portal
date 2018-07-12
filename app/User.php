@@ -26,4 +26,16 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    // Relationship Model
+    
+    public function labors() {
+        return $this->hasMany(Labor::class);
+    }
+
+    public function relievers() {
+        return $this->hasMany(Reliver::class);
+    }
+
+    
 }
