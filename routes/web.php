@@ -27,6 +27,10 @@ Route::get('/getLaborByCompany/{company}','LaborsController@getLaborByCompany');
 Route::patch('/changeStatus/{labor}','LaborsController@changeStatus');
 Route::resource('/labors','LaborsController');
 Route::resource('/relievers','RelieversController');
+Route::get('/getRelievers','RelieversController@getRelievers');
+
+//Classification Route
+Route::get('/getClassifications','ClassificationsController@getClassifications');
 
 Route::group(['middleware' => 'auth'], function() {
 

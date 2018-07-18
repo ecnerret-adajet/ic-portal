@@ -16,7 +16,7 @@ class RelieversController extends Controller
      */
     public function index()
     {
-        //
+        return view('relievers.index');
     }
 
     /**
@@ -27,6 +27,15 @@ class RelieversController extends Controller
     public function create()
     {
         //
+    }
+
+    /**
+     * get Relivers in json
+     */
+    public function getRelievers()
+    {
+        $relievers = Reliever::all();
+        return $relievers;
     }
 
     /**
@@ -44,16 +53,28 @@ class RelieversController extends Controller
             'to_date',
         ]);
 
-        $reliever = Auth::user()->relievers()->create([
-            'reasons' => $request->input('reasons'),
-            'from_date' => $request->input('from_date'),
-            'to_date' => $request->input('to_date'),
-            'from_worker' => $request->input('from_worker'),
-            'to_worker' => $request->input('to_worker'),
-            'status' => 1,
-        ]);
+        // $reliever = Reliever::create([
+        //     'user_id' => $request->input('user_id'),
+        //     'reasons' => $request->input('reasons'),
+        //     'from_date' => $request->input('from_date'),
+        //     'to_date' => $request->input('to_date'),
+        //     'from_worker' => $request->input('from_worker'),
+        //     'to_worker' => $request->input('to_worker'),
+        //     'status' => $request->input('status'),
+        // ]);
 
-        return ['redirect' => route('relievers',$reliever)];
+        $reliever = new Reliever;
+        $reliever->user_id = $request->input('user_id');
+        $reliever->reasons =  $request->input('reasons');
+        $reliever->from_date =  Carbon::parse($request->input('from_date'));
+        $reliever->to_date =  Carbon::parse($request->input('to_date'));
+        $reliever->from_worker =  $request->input('from_worker');
+        $reliever->to_worker =  $request->input('to_worker');
+        $reliever->status = $request->input('status');
+        $reliever->save();
+
+
+        return ['redirect' => route('relievers.index')];
     }
 
     /**

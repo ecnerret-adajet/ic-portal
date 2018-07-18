@@ -10,7 +10,10 @@ class Reliever extends Model
         'reasons',
         'from_date',
         'to_date',
-        // 'status',
+        'status',
+        'user_id',
+        'from_worker',
+        'to_worker',
     ];
 
     // Model Relationships
@@ -20,15 +23,30 @@ class Reliever extends Model
     }
 
     public function fromWorker() {
-        return $this->belongsTo(User::class,'from_worker');
+        return $this->belongsTo(Labor::class,'from_worker');
     }
 
     public function toWorker() {
-        return $this->belongsTo(User::class,'to_worker');
+        return $this->belongsTo(Labor::class,'to_worker');
     }
 
     public function approvedBy() {
-        return $this->belongsTo(User::class,'approved_by');
+        return $this->belongsTo(Labor::class,'approved_by');
+    }
+
+    // Cast to JSON
+
+    public function toArray() 
+    {
+        return  [
+            'id' => $this->id,
+            'from_worker' => $this->fromWorker->name,
+            'to_worker' => $this->toWorker->name,
+            'from_date' => $this->from_date,
+            'to_date' => $this->to_date,
+            'approved' => 'PENDING',
+
+        ];
     }
 
 }

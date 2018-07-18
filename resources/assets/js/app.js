@@ -17,6 +17,7 @@ window.Vue = require('vue');
 
 Vue.component('company-home', require('./components/CompanyHome.vue'));
 Vue.component('company-show', require('./components/CompanyShow.vue'));
+Vue.component('reliever-home', require('./components/RelieverHome.vue'));
 
 const app = new Vue({
     el: '#app'

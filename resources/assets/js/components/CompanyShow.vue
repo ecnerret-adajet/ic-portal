@@ -20,13 +20,10 @@
                 </label>
                 </div>
             </div>
-            <div class="col text-right">
-               <button class="btn btn-secondary">
-                   Add New Labor
-               </button>
-                <button class="btn btn-secondary">
-                   Filter Columns
-               </button>
+            <div class="col-3 text-right">
+
+                <labor-create @pushToLabor="labors.unshift($event)" :company_id="company_id"></labor-create>
+               
             </div>
         </div>
 
@@ -55,7 +52,7 @@
                     <td>{{ labor.labor_code }}</td>
                     <td>{{ labor.card_no }}</td>
                     <td>{{ labor.classfication }}</td>
-                    <td><a href="javascript:void(0);" class="btn btn-primary btn-sm" data-toggle="modal" @click="getter(labor)" :data-target="'#addReliever-'+labor.id">Reliever</a></td>
+                    <td><a href="javascript:void(0);" class="btn btn-primary btn-sm" data-toggle="modal" @click="getCurrentLabor(labor)" :data-target="'#addReliever-'+labor.id">Reliever</a></td>
                 </tr>
                 <tr v-if="filteredQueues.length == 0 && !loading">
                     <td colspan="7" class="text-center" >
@@ -96,7 +93,7 @@
                 
                 <div class="form-group">
                     <label>From Worker</label>
-                    <input type="text" class="form-control"  disabled :value="labor.name">
+                    <input type="text" class="form-control" disabled :value="labor.name">
                 </div>
 
                 <div class="form-group">
@@ -119,14 +116,14 @@
 
                 <div class="form-group">
                     <label>Remarks</label>
-                    <textarea rows="3" class="form-control" v-model="reason">
+                    <textarea rows="3" class="form-control" v-model="reasons">
                     </textarea>
                 </div>
             
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" @click="storeReliever" data-dismiss="modal">Submit</button>            
+                <button type="button" class="btn btn-primary" :disabled="allowToSubmit" @click.prevent="storeReliever" data-dismiss="modal">Submit</button>            
             </div>
             </div>
         </div>
@@ -152,10 +149,15 @@
 import Toasted from 'vue-toasted';
 import moment from 'moment';
 import VueContentPlaceholders from 'vue-content-placeholders';
+import LaborCreate from './LaborCreate.vue'
 
 Vue.use(Toasted)
 
 export default {
+
+    components: {
+        LaborCreate
+    },
 
     props: [
         'company_id'
@@ -172,7 +174,7 @@ export default {
             selectedToWorker: '',
             fromDate: '',
             toDate: '',
-            reason: '',
+            reasons: '',
             currentPage: 0,
             itemsPerPage: 10,
             search: '',
@@ -187,17 +189,15 @@ export default {
     
     },
 
-    watch: {
-        getLabor() {
-            console.log(this.getLabor);
-        }
-    },
-
     methods: {
 
-        getter(labor) {
+        getCurrentLabor(labor) {
             return this.getLabor = labor;
         },
+
+        // newLabor(event){
+        //     console.log(this.labors.unshift(event));
+        // },
         
         // Get Master Data
 
@@ -231,7 +231,7 @@ export default {
             })
             .then(response => {
                 this.labors[this.findLabor(labor.id)] = response.data
-                
+                console.log(response.data)
                 Vue.toasted.show("Updated Successfully!", { 
                     theme: "primary", 
                     position: "bottom-right", 
@@ -242,11 +242,13 @@ export default {
 
         storeReliever() {
             axios.post('/icportal/public/relievers', {
+                user_id: 1,
+                status: 1,
                 from_worker: this.getLabor.id,
                 to_worker: this.selectedToWorker,
                 from_date: this.fromDate,
                 to_date: this.toDate,
-                reason: this.reason,
+                reasons: this.reasons,
             })
             .then(response => {
                 window.location = response.data.redirect;
@@ -273,8 +275,15 @@ export default {
 
     computed: {
 
+        allowToSubmit() {
+            return this.selectedToWorker == '' ||
+                this.fromDate == '' ||
+                this.toDate == '' ||
+                this.reasons == '';
+        },
+
         filterActiveLabors() {
-            return this.labors.filter(labor => labor.status == 1);
+            return this.labors.filter(labor => labor.id != this.getLabor.id);
         },
 
         filteredEntries() {
@@ -288,14 +297,14 @@ export default {
             var bySearch = this.filteredEntries;
             
             if(this.filter == 'all') {
-                return this.labors && bySearch;
+                return this.labors;
             } else if(this.filter == 'active') {
                 return this.labors.filter(labor => labor.status == 1)
             } else if(this.filter == 'inactive') {
                 return this.labors.filter(labor => labor.status == 0)
             }
 
-            return this.labors && bySearch;
+            return this.labors;
         },
 
         currentDate() {
