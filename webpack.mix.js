@@ -25,4 +25,5 @@ mix.styles([
         'resources/assets/js/app.js',
         'node_modules/popper.js/dist/popper.js',
         'node_modules/bootstrap/dist/js/bootstrap.min.js',
-    ], 'public/js/all.js');
+    ], 'public/js/all.js')
+    .browserSync('http://localhost/icportal/public/companies/1');

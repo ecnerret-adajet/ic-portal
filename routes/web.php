@@ -12,28 +12,33 @@
 */
 
 Route::get('/', function () {
-    return view('home');
-});
+    if(Auth::user()->hasRole('admin')) {
+        return view('home');
+    } else {
+        return redirect('companies/'.Auth::user()->company->id);
+    }     
+})->middleware('auth');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::group(['middleware' => ['auth', 'role:admin']], function() {
+    Route::resource('/users','UsersController');
+    Route::get('/home', 'HomeController@index')->name('home'); 
+});
 
-Route::get('/getCompanies','CompaniesController@getCompanies');
-Route::get('/getCompany/{company}','CompaniesController@getCompany');
-Route::resource('/companies','CompaniesController');
+Route::group(['middleware' => ['auth']], function() {
+    Route::get('/getCompanies','CompaniesController@getCompanies');
+    Route::get('/getCompany/{company}','CompaniesController@getCompany');
+    Route::resource('/companies','CompaniesController');
 
-Route::get('/getLaborByCompany/{company}','LaborsController@getLaborByCompany');
-Route::patch('/changeStatus/{labor}','LaborsController@changeStatus');
-Route::resource('/labors','LaborsController');
-Route::resource('/relievers','RelieversController');
-Route::get('/getRelievers','RelieversController@getRelievers');
+    Route::get('/getLaborByCompany/{company}','LaborsController@getLaborByCompany');
+    Route::patch('/changeStatus/{labor}','LaborsController@changeStatus');
+    Route::resource('/labors','LaborsController');
+    Route::resource('/relievers','RelieversController');
+    Route::get('/getRelievers','RelieversController@getRelievers');
 
-//Classification Route
-Route::get('/getClassifications','ClassificationsController@getClassifications');
-
-Route::group(['middleware' => 'auth'], function() {
-
+    //Classification Route
+    Route::get('/getClassifications','ClassificationsController@getClassifications');   
 });
 
 Route::any('{any?}', function ($any = null) {

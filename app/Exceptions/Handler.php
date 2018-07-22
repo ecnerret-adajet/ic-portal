@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Flashy;
 
 class Handler extends ExceptionHandler
 {
@@ -48,6 +49,16 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        $userLevelCheck = $exception instanceof \jeremykenedy\LaravelRoles\Exceptions\RoleDeniedException ||
+            $exception instanceof \jeremykenedy\LaravelRoles\Exceptions\RoleDeniedException ||
+            $exception instanceof \jeremykenedy\LaravelRoles\Exceptions\PermissionDeniedException ||
+            $exception instanceof \jeremykenedy\LaravelRoles\Exceptions\LevelDeniedException;
+
+        if ($userLevelCheck) {
+            flashy()->error('Nope, You Cannot Do That!');
+            return back();   
+        }
+
         return parent::render($request, $exception);
     }
 }

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
 use App\Company;
+use Flashy;
 
 class CompaniesController extends Controller
 {
@@ -55,6 +58,14 @@ class CompaniesController extends Controller
      */
     public function show(Company $company)
     {
+
+        // $this->authorize('view', $company);
+
+        if(Gate::denies('view', $company)) {
+            flashy()->error('Nope, You Cannot Do That!');
+            return back();            
+        }
+
         return view('companies.show',compact('company'));
     }
 

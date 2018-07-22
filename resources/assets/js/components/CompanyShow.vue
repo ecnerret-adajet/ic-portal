@@ -297,11 +297,15 @@ export default {
             var bySearch = this.filteredEntries;
             
             if(this.filter == 'all') {
-                return this.labors;
+                return this.labors && bySearch;
             } else if(this.filter == 'active') {
-                return this.labors.filter(labor => labor.status == 1)
+                return this.labors.filter(labor => {
+                    return labor.status == 1 && labor.name.toLowerCase().includes(this.search.toLowerCase());
+                })
             } else if(this.filter == 'inactive') {
-                return this.labors.filter(labor => labor.status == 0)
+                return this.labors.filter(labor => {
+                    return labor.status == 0 && labor.name.toLowerCase().includes(this.search.toLowerCase());
+                })
             }
 
             return this.labors;

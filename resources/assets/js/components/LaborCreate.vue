@@ -24,7 +24,7 @@
 
                 <div class="form-group">
                     <label>Company</label>
-                    <input type="text" disabled class="form-control" v-model="filterCompany.name">
+                    <input type="text" disabled class="form-control" v-model="labor.company">
                 </div>
 
                 <div class="form-group">
@@ -72,7 +72,12 @@ export default {
     created() {
         this.getClassifications()
         this.getCompanies()
-        this.filterCompany
+    },
+
+    watch: {
+        filterCompany() {
+            return this.labor.company = this.filterCompany.name;
+        }
     },
 
     methods: {
@@ -106,7 +111,9 @@ export default {
     computed: {
         
         filterCompany() {
-            return this.companies.find(company => company.id == this.company_id);
+            if(this.companies) {
+                return this.companies.find(company => company.id == this.company_id);
+            }
         },
 
         removeResiged() {

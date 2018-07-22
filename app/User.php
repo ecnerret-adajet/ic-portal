@@ -4,10 +4,12 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use jeremykenedy\LaravelRoles\Traits\HasRoleAndPermission;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    use HasRoleAndPermission;
 
     /**
      * The attributes that are mass assignable.
@@ -27,6 +29,13 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    // Associated User to company
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
+
     // Relationship Model
     
     public function labors() {
@@ -36,6 +45,7 @@ class User extends Authenticatable
     public function relievers() {
         return $this->hasMany(Reliver::class);
     }
+
 
     
 }
