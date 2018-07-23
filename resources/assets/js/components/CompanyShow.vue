@@ -1,67 +1,78 @@
 <template>
     <div>
 
-        <div class="row mb-2">
-            <div class="col float-left">
-                <div class="form-group w-100">
-                    <input type="text" class="form-control" placeholder="Search by name" v-model="search">
-                </div>
-            </div>
-            <div class="col text-center">
-                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn btn-outline-primary btn-primary" :class="{ active : filter == 'all'}"  @click="filter = 'all'">
-                    <input type="checkbox" checked="" autocomplete="off"> All
-                </label>
-                <label class="btn btn-outline-primary btn-primary" :class="{ active : filter == 'active'}"  @click="filter = 'active'">
-                    <input type="checkbox" autocomplete="off"> Active
-                </label>
-                <label class="btn btn-outline-primary btn-primary" :class="{ active : filter == 'inactive'}"  @click="filter = 'inactive'">
-                    <input type="checkbox" autocomplete="off"> Inactive
-                </label>
-                </div>
-            </div>
-            <div class="col-3 text-right">
+         <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="header pl-4">
+                        <h4 class="title mb-0">{{ company.name }}
+                           <span class="float-right text-right mr-4">
+                               <labor-create @pushToLabor="labors.unshift($event)" :company_id="company_id"></labor-create>
+                           </span>
+                        </h4>
+                        <p class="category text-muted">Independent Company</p>
 
-                <labor-create @pushToLabor="labors.unshift($event)" :company_id="company_id"></labor-create>
-               
-            </div>
-        </div>
+                         <div class="row mb-2">
+                            <div class="col float-left">
+                                <div class="form-group w-100">
+                                    <input type="text" class="form-control" placeholder="Search by name" v-model="search">
+                                </div>
+                            </div>
+                            <div class="col text-right mr-4">
+                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                    <label class="btn btn-outline-primary btn-primary" :class="{ active : filter == 'all'}"  @click="filter = 'all'">
+                                        <input type="checkbox" checked="" autocomplete="off"> All
+                                    </label>
+                                    <label class="btn btn-outline-primary btn-primary" :class="{ active : filter == 'active'}"  @click="filter = 'active'">
+                                        <input type="checkbox" autocomplete="off"> Active
+                                    </label>
+                                    <label class="btn btn-outline-primary btn-primary" :class="{ active : filter == 'inactive'}"  @click="filter = 'inactive'">
+                                        <input type="checkbox" autocomplete="off"> Inactive
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content table-responsive">
+                        <table class="table table-hover table-striped">
+                            <thead>
+                                <tr>
+                                <th width="5%"></th>
+                                <th>Name</th>
+                                <th>Company</th>
+                                <th>Labor Code</th>
+                                <th>Card #</th>
+                                <th>Status</th>
+                                <th width="5%">Option</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                        <tr v-for="(labor, l) in filteredQueues" :key="l" v-if="!loading">
+                            <td class="text-center">
+                                <label class="switch mt-2">
+                                    <input type="checkbox" :checked="labor.status" @click="changeStatus(labor)">
+                                    <span class="slider round"></span>
+                                </label> 
+                            </td>
+                            <td>{{ labor.name }}</td>
+                            <td>{{ labor.company }}</td>
+                            <td>{{ labor.labor_code }}</td>
+                            <td>{{ labor.card_no }}</td>
+                            <td>{{ labor.classfication }}</td>
+                            <td><a href="javascript:void(0);" class="btn btn-primary btn-sm btn-fill" data-toggle="modal" @click="getCurrentLabor(labor)" :data-target="'#addReliever-'+labor.id">Reliever</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
 
-        <table class="table table-hover">
-            <thead>
-                <tr class="text-uppercase small">
-                <th width="5%"></th>
-                <th>Name</th>
-                <th>Company</th>
-                <th>Labor Code</th>
-                <th>Card #</th>
-                <th>Status</th>
-                <th width="5%">Option</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(labor, l) in filteredQueues" :key="l" v-if="!loading">
-                    <td class="text-center">
-                        <label class="switch mt-2">
-                            <input type="checkbox" :checked="labor.status" @click="changeStatus(labor)">
-                            <span class="slider round"></span>
-                        </label> 
-                    </td>
-                    <td>{{ labor.name }}</td>
-                    <td>{{ labor.company }}</td>
-                    <td>{{ labor.labor_code }}</td>
-                    <td>{{ labor.card_no }}</td>
-                    <td>{{ labor.classfication }}</td>
-                    <td><a href="javascript:void(0);" class="btn btn-primary btn-sm" data-toggle="modal" @click="getCurrentLabor(labor)" :data-target="'#addReliever-'+labor.id">Reliever</a></td>
-                </tr>
-                <tr v-if="filteredQueues.length == 0 && !loading">
-                    <td colspan="7" class="text-center" >
-                        <h4 class="mt-3 text-muted text-uppercase">Nothing found</h4>
-                    </td>
-                </tr>
-                <tr v-if="loading">
-                    <td colspan="7">
-                         <div class="row">
+                    <div class="card-body pb-0">
+
+                        <div class="bg-light row mb-3"  v-if="filteredQueues.length == 0 && !loading">
+                            <div class="col text-center">
+                                <h3 class="mt-3 p-3 font-weight-light text-muted text-uppercase">Nothing found</h3>
+                            </div>
+                        </div>
+
+                         <div v-if="loading" class="row p-3">
                             <div class="col">
                                 <content-placeholders style="border: 0 ! important;" :rounded="true">
                                     <content-placeholders-heading :img="true" />
@@ -71,13 +82,30 @@
                                     <content-placeholders-text :lines="1" />
                                     <!-- <content-placeholders-text :lines="3" /> -->
                                 </content-placeholders>
-                             </div>
+                            </div>
                         </div>
-                    </td>
-                </tr>
-            </tbody>
 
-        </table> 
+                         <div class="row mb-3">
+                            <div class="col-6">
+                                <button :disabled="!showPreviousLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage - 1)"> Previous </button>
+                                    <span class="text-dark">Page {{ currentPage + 1 }} of {{ totalPages }}</span>
+                                <button :disabled="!showNextLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage + 1)"> Next </button>
+                            </div>
+                            <div class="col-6 text-right">
+                                <span>{{ labors.length }} Labor(s)</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                       
+
+                    </div>
+                </div>
+            </div>
+            </div>
+
+    
 
          <!-- Add Reliever -->
         <div  v-for="(labor, l) in filteredQueues" :key="l" v-if="!loading"  class="modal fade" :id="'addReliever-'+labor.id" tabindex="-1" role="dialog" aria-labelledby="addReliever" aria-hidden="true">
@@ -130,16 +158,7 @@
         </div>
         <!-- End Reliver -->
 
-        <div class="row mt-3">
-            <div class="col-6">
-                <button :disabled="!showPreviousLink()" class="btn btn-default btn-sm" v-on:click="setPage(currentPage - 1)"> Previous </button>
-                    <span class="text-dark">Page {{ currentPage + 1 }} of {{ totalPages }}</span>
-                <button :disabled="!showNextLink()" class="btn btn-default btn-sm" v-on:click="setPage(currentPage + 1)"> Next </button>
-            </div>
-            <div class="col-6 text-right">
-                <span>{{ labors.length }} Labor(s)</span>
-            </div>
-        </div>
+       
 
 
     </div>
@@ -249,6 +268,7 @@ export default {
                 from_date: this.fromDate,
                 to_date: this.toDate,
                 reasons: this.reasons,
+                company_list: this.company.id
             })
             .then(response => {
                 window.location = response.data.redirect;

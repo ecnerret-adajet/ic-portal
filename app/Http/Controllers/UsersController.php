@@ -18,7 +18,17 @@ class UsersController extends Controller
      */
     public function index()
     {
-        //
+        return view('users.index');
+    }
+
+    /**
+     * Display list of all users in the portal
+     */
+    public function getUsers()
+    {
+        $users = User::orderBy('id','DESC')->get();
+
+        return $users;
     }
 
     /**

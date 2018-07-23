@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <button class="btn btn-secondary" data-toggle="modal" data-target="#addLabor">
+        <button class="btn btn-secondary btn-fill" data-toggle="modal" data-target="#addLabor">
             Add New Labor
         </button>
 

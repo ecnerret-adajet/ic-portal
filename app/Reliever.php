@@ -34,6 +34,11 @@ class Reliever extends Model
         return $this->belongsTo(Labor::class,'approved_by');
     }
 
+    public function company() 
+    {
+        return $this->belongsTo(Company::class);
+    }
+
     // Cast to JSON
 
     public function toArray() 
@@ -44,6 +49,7 @@ class Reliever extends Model
             'to_worker' => $this->toWorker->name,
             'from_date' => $this->from_date,
             'to_date' => $this->to_date,
+            'company' => $this->company,
             'approved' => 'PENDING',
 
         ];

@@ -46,6 +46,19 @@ class User extends Authenticatable
         return $this->hasMany(Reliver::class);
     }
 
+    // Custom casting to json
+
+    public function toArray()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'email' => $this->email,
+            'company' => $this->company,
+            'role' =>  $this->roles()->first()->name,
+            'created_at' => $this->created_at
+        ];
+    }
 
     
 }

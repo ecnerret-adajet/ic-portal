@@ -1,17 +1,16 @@
 <template>
     <div class="row">
-
         <div class="col">
             <div class="card">
                 <div class="header px-4">
-                    <h4 class="title mb-0">Companies
+                    <h4 class="title mb-0">Users
                         <button class="btn btn-secondary btn-fill float-right">
-                            Add Company
+                            Add User
                         </button>
                     </h4>
-                    <p class="category text-muted">Independent Companies</p>
+                    <p class="categoory text-muted">All Users in portal</p>
 
-                    <div class="row mb-2">
+                     <div class="row mb-2">
                         <div class="col float-left">
                             <div class="form-group w-100">
                                 <input type="text" class="form-control" placeholder="Search by name" v-model="search">
@@ -20,31 +19,45 @@
                     </div>
                 </div>
                 <!-- end header -->
+
                 <div class="content table-responsive">
+
                     <table class="table table-hover table-striped">
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Number of labors</th>
-                                <th>Created Date</th>
-                                <th>Option</th>
+                                <th>Email</th>
+                                <th>Assigned Company</th>
+                                <th>Role</th>
+                                <th>Registered Date</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(company, c) in filteredQueues" :key="c">
-                                <td>{{ company.name }}</td>
-                                <td>{{ compayLabors(company.id) }}</td>
-                                <td>{{ moment(company.created_at) }}</td>
+                            <tr v-for="(user, s) in filteredQueues" :key="s">
+                                <td>{{ user.name }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.company.name }}</td>
+                                <td>{{ user.role }}</td>
+                                <td>{{ moment(user.created_at.date) }}</td>
                                 <td>
-                                    <a class="btn btn-fill btn-primary" :href="'companies/' + company.id">
-                                        Visit
-                                    </a>
+                                    <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Option
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="#">Edit</a>
+                                        <a class="dropdown-item" href="#">Force Change pass</a>
+                                        <a class="dropdown-item" href="#">Delete</a>
+                                    </div>
+                                    </div>
+                                
                                 </td>
                             </tr>
                         </tbody>
                     </table>
 
-                    <div class="card-body pb-0">
+                     <div class="card-body pb-0">
 
                         <div class="bg-light row mb-3"  v-if="filteredQueues.length == 0 && !loading">
                             <div class="col text-center">
@@ -72,16 +85,19 @@
                                 <button :disabled="!showNextLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage + 1)"> Next </button>
                             </div>
                             <div class="col-6 text-right">
-                                <span>{{ companies.length }} Labor(s)</span>
+                                <span>{{ users.length }} Labor(s)</span>
                             </div>
                         </div>
 
                     </div>
+
+
                 </div>
+
+
             </div>
+            <!-- end card -->
         </div>
-
-
     </div>
 </template>
 <script>
@@ -92,13 +108,13 @@ import VueContentPlaceholders from 'vue-content-placeholders';
 
 Vue.use(Toasted)
 
+
 export default {
-    
     data() {
         return {
             loading: false,
+            users: [],
             companies: [],
-            labors: [],
             search: '',
             currentPage: 0,
             itemsPerPage: 10,
@@ -106,24 +122,13 @@ export default {
     },
 
     created() {
-        this.getCompanies()
-        this.getLabors()
+        this.getUsers()
     },
 
     methods: {
-
-        getLabors() {
-            axios.get('/icportal/public/getLabors')
-            .then(response => this.labors = response.data).length;
-        },
-
-        getCompanies() {
-            axios.get('/icportal/public/getCompanies')
-            .then(response => this.companies = response.data);
-        },
-
-        compayLabors(company) {
-            return this.labors.filter(labor => labor.company_id == company).length;
+        getUsers() {
+            axios.get('/icportal/public/getUsers')
+            .then(response => this.users = response.data)
         },
 
         moment(date) {
@@ -150,7 +155,7 @@ export default {
     computed: {
 
         filteredEntries() {
-            return this.companies.filter(item => {
+            return this.users.filter(item => {
                 return item.name.toLowerCase().includes(this.search.toLowerCase());
             })
         },

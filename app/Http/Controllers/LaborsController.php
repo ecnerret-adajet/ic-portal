@@ -82,6 +82,16 @@ class LaborsController extends Controller
     }
 
     /**
+     * Get all labors
+     */
+    public function getLabors()
+    {
+        $labors = Labor::orderBy('id','DESC')->get();
+
+        return $labors;
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param  int  $id

@@ -2,6 +2,7 @@
 
 @section('content')
 
-    <reliever-home></reliever-home>
+<company-home></company-home>
+
 
 @endsection

@@ -8,56 +8,164 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <link rel="shortcut icon" href="{{ asset('img/favicon.png') }}">
+
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
     <link href="{{ asset('css/all.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div id="app">
+<div id="app">
 
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<div class="wrapper">
+        <div class="sidebar" data-image="{{ asset('/img/sidebar-5.jpg') }}" data-color="blue">
+            <!--
+        Tip 1: You can change the color of the sidebar using: data-color="purple | blue | green | orange | red"
 
-            <div class="container">
+        Tip 2: you can also add an image using data-image tag
+    -->
+            <div class="sidebar-wrapper">
+                <div class="logo">
+                    <a href="#" class="simple-text">
+                        IC PORTAL
+                    </a>
+                </div>
+                <ul class="nav">
 
-        <a class="navbar-brand" href="{{ url('/home') }}">Independent Contractors</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarColor01">
-                <ul class="navbar-nav mr-auto">
-                @role('admin')
-                    <li class="nav-item active">
-                    <a class="nav-link" href="{{ url('/home') }}">Home <span class="sr-only">(current)</span></a>
+                    @role('admin')
+                    <li class="nav-item {{ Request::is('home') || Request::is('/') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ url('/home') }}">
+                            <i class="nc-icon nc-chart-pie-35"></i>
+                            <p>Dashboard</p>
+                        </a>
                     </li>
-                    <li class="nav-item">
-                    <a class="nav-link" href="{{ url('/relievers') }}">Relievers</a>
+                    <li class="{{ Request::is('companies*') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ url('/companies') }}">
+                            <i class="nc-icon nc-bag"></i>
+                            <p>Companies</p>
+                        </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Users</a>
+                    @endrole
+
+                    @if(Auth::user()->hasRole('representative'))
+                    <li class="{{ Request::is('companies*') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ url('companies/'.Auth::user()->company_id) }}">
+                            <i class="nc-icon nc-bag"></i>
+                            <p>Companies</p>
+                        </a>
                     </li>
-                @endrole
-                {{-- <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
-                </li> --}}
-                </ul>
-                <ul class="navbar-nav my-2 my-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="javascript:void(0);" data-toggle="modal" data-target="#logoutModal">Logout</a>
-                    </li>               
+                    @endif
+
+                    <li class="{{ Request::is('relievers*') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ url('/relievers') }}">
+                            <i class="nc-icon nc-paper-2"></i>
+                            <p>Relievers</p>
+                        </a>
+                    </li>
+
+                    @role('admin')
+                    <li class="{{ Request::is('approvals*') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ url('/approvals') }}">
+                            <i class="nc-icon nc-bell-55"></i>
+                            <p>Approvals</p>
+                        </a>
+                    </li>
+                    <li class="{{ Request::is('users*') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ url('/users') }}">
+                            <i class="nc-icon nc-circle-09"></i>
+                            <p>User Profile</p>
+                        </a>
+                    </li>
+                     <li class="{{ Request::is('roles*') ? 'active' : '' }}">
+                        <a class="nav-link disabled" href="{{ url('/roles') }}">
+                            <i class="nc-icon nc-lock-circle-open"></i>
+                            <p>Roles & Permission</p>
+                        </a>
+                    </li>
+                    
+                    @endrole
+
+                    <li class="nav-item active active-pro">
+                        <a class="nav-link active" data-toggle="modal" data-target="#logoutModal" href="javascript:void(0);">
+                            <i class="nc-icon nc-button-power"></i>
+                            <p>Sign Out</p>
+                        </a>
+                    </li>
                 </ul>
             </div>
-
-            </div>
-            
-            </nav>
-
-        <div class="mb-5" style="margin-bottom: 100px;">
-            @yield('content')
         </div>
+        <div class="main-panel">
+            <!-- Navbar -->
+            <nav class="navbar navbar-expand-lg " color-on-scroll="500">
+                <div class=" container-fluid  ">
+                    <a class="navbar-brand" href="#pablo"> 
+                        
+                        @if(Request::is('home') || Request::is('/'))
+                            Dashboard
+                        @elseif(Request::is('companies*'))
+                            Companies
+                        @elseif(Request::is('relievers*'))
+                            Relievers
+                        @elseif(Request::is('approvals*'))
+                            Approvals
+                        @elseif(Request::is('users*'))
+                            Users
+                        @elseif(Request::is('roles*'))
+                            Roles
+                        @endif    
+                        
+                    </a>
+                    <button href="" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-bar burger-lines"></span>
+                        <span class="navbar-toggler-bar burger-lines"></span>
+                        <span class="navbar-toggler-bar burger-lines"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-end" id="navigation">
+                        <ul class="nav navbar-nav mr-auto">
+                            <li class="nav-item">
+                                <a href="#" class="nav-link" data-toggle="dropdown">
+                                    <span class="d-lg-none">Dashboard</span>
+                                </a>
+                            </li>                           
+                        </ul>
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link"  href="javascript:void(0);">
+                                <span class="no-icon">Hello, {{ Auth::user()->name }}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <!-- End Navbar -->
+            <div class="content">
+                <div class="container-fluid">
+                        
+                    @yield('content')
 
-
+                </div>
+                <!-- end container-fluid -->
+            </div>
+            <!-- end content -->
+            
+            <footer class="footer">
+                <div class="container">
+                    <nav>
+                        <ul class="footer-menu">
+                            <li>
+                                <a href="#">
+                                  La Filipina Uy Gongco Group of Companies
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </footer>
+        </div>
+    </div>
+ 
         <!-- Logout Modal -->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -72,9 +180,10 @@
             Select "Logout" below if you are ready to end your current session.
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              
+            <button type="button" class="btn btn-secondary btn-fill" data-dismiss="modal">Cancel</button>
 
-            <a class="btn btn-primary" href="javascript::void(0);" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Confirm</a>
+            <a class="btn btn-primary btn-fill" href="javascript::void(0);" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Confirm</a>
 
               <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
                             {{ csrf_field() }}

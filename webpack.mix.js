@@ -17,7 +17,9 @@ let mix = require('laravel-mix');
 mix.styles([
     // 'node_modules/bootstrap/dist/css/bootstrap.min.css',
     'resources/assets/css/bootstrap.min.css',
-    'node_modules/font-awesome/css/font-awesome.min.css',
+    'resources/assets/css/light-bootstrap-dashboard.css',
+    // 'resources/assets/css/demo.css',
+    // 'node_modules/font-awesome/css/font-awesome.min.css',
     'resources/assets/css/style.css',
 
 ], 'public/css/all.css')
@@ -26,4 +28,4 @@ mix.styles([
         'node_modules/popper.js/dist/popper.js',
         'node_modules/bootstrap/dist/js/bootstrap.min.js',
     ], 'public/js/all.js')
-    .browserSync('http://localhost/icportal/public/companies/1');
+    .browserSync('http://localhost/icportal/public/relievers');

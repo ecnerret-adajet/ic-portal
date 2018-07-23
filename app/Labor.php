@@ -12,6 +12,10 @@ class Labor extends Model
     ];
 
     // Relationship Models
+    public function getNameAttribute($value)
+    {
+        return ucwords(strtolower($value));
+    }
 
     public function user() {
         return $this->belongsTo(User::class);
@@ -33,6 +37,7 @@ class Labor extends Model
             'id' => $this->id,
             'name' => $this->name,
             'company' => $this->company->name,
+            'company_id' => $this->company->id,
             'classfication' => $this->classification->name,
             'labor_code' => $this->labor_code,
             'card_no' => $this->card_on,

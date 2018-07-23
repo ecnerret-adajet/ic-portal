@@ -34,8 +34,20 @@ class RelieversController extends Controller
      */
     public function getRelievers()
     {
-        $relievers = Reliever::all();
-        return $relievers;
+        if(Auth::user()->isAdmin()) {
+            
+            $relievers = Reliever::orderBy('id','DESC')->get();
+            
+            return $relievers;
+
+        } else {
+
+            $relievers = Reliever::where('company_id',Auth::user()->company_id)
+                            ->orderBy('id','desc')
+                            ->get();
+
+            return $relievers;
+        }
     }
 
     /**
@@ -71,6 +83,7 @@ class RelieversController extends Controller
         $reliever->from_worker =  $request->input('from_worker');
         $reliever->to_worker =  $request->input('to_worker');
         $reliever->status = $request->input('status');
+        $reliever->company()->associate($request->input('company_list'));
         $reliever->save();
 
 
