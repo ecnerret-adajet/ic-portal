@@ -222,7 +222,7 @@ export default {
 
         getLabors() {
             this.loading = true
-            axios.get('/icportal/public/getLaborByCompany/'+this.company_id)
+            axios.get('/getLaborByCompany/'+this.company_id)
             .then(response => {
                 this.labors = response.data
                 this.loading = false
@@ -230,7 +230,7 @@ export default {
         },
 
         getCompany() {
-            axios.get('/icportal/public/getCompany/'+this.company_id)
+            axios.get('/getCompany/'+this.company_id)
             .then(response => this.company = response.data);
         },
 
@@ -245,7 +245,7 @@ export default {
         },
 
         changeStatus(labor) {
-            axios.patch('/icportal/public/changeStatus/'+ labor.id, {
+            axios.patch('/changeStatus/'+ labor.id, {
                 status : labor.status
             })
             .then(response => {
@@ -260,7 +260,7 @@ export default {
         },
 
         storeReliever() {
-            axios.post('/icportal/public/relievers', {
+            axios.post('/relievers', {
                 user_id: 1,
                 status: 1,
                 from_worker: this.getLabor.id,

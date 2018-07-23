@@ -127,7 +127,7 @@ export default {
 
     methods: {
         getUsers() {
-            axios.get('/icportal/public/getUsers')
+            axios.get('/getUsers')
             .then(response => this.users = response.data)
         },
 

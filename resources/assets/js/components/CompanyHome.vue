@@ -113,12 +113,12 @@ export default {
     methods: {
 
         getLabors() {
-            axios.get('/icportal/public/getLabors')
+            axios.get('/getLabors')
             .then(response => this.labors = response.data).length;
         },
 
         getCompanies() {
-            axios.get('/icportal/public/getCompanies')
+            axios.get('/getCompanies')
             .then(response => this.companies = response.data);
         },
 

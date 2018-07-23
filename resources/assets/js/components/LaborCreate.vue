@@ -82,17 +82,17 @@ export default {
 
     methods: {
         getClassifications() {
-            axios.get('/icportal/public/getClassifications')
+            axios.get('/getClassifications')
             .then(response => this.classifications = response.data);
         },
 
         getCompanies() {
-            axios.get('/icportal/public/getCompanies')
+            axios.get('/getCompanies')
             .then(response => this.companies = response.data);
         },
 
         storeLabor() {
-            axios.post('/icportal/public/labors', {
+            axios.post('/labors', {
                 user_id: this.labor.user_id,
                 name: this.labor.name,
                 labor_code: this.labor.labor_code,

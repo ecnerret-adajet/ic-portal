@@ -124,7 +124,7 @@ export default {
     methods: {
         getRelievers() {
             this.loading = true
-            axios.get('/icportal/public/getRelievers/')
+            axios.get('/getRelievers/')
             .then(response => {
                 this.relievers = response.data
                 this.loading = false
