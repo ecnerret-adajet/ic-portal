@@ -16,7 +16,7 @@ Route::get('/', function () {
         return view('home');
     } else {
         return redirect('companies/'.Auth::user()->company->id);
-    }     
+    }
 })->middleware('auth');
 
 // Authentication Routes...
@@ -30,12 +30,24 @@ $this->post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail'
 $this->get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 $this->post('password/reset', 'Auth\ResetPasswordController@reset');
 
-Route::group(['middleware' => ['auth', 'role:admin']], function() {
+/**
+ * Route Group for administrator
+ */
+Route::group(['middleware' => ['role:admin']], function() {
     Route::resource('/users','UsersController');
     Route::get('/getUsers','UsersController@getUsers');
-    Route::get('/home', 'HomeController@index')->name('home'); 
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/rolePerms','RolesPermissionsController@index');
+    Route::get('/getRoles','RolesPermissionsController@getRoles');
+    Route::post('/storeRoles','RolesPermissionsController@storeRoles');
+    Route::get('/getPermissions','RolesPermissionsController@getPermissions');
+    Route::post('/storePermission','RolesPermissionsController@storePermission');
+    Route::patch('/attachOrDetach/{role}','RolesPermissionsController@attachOrDetach');
 });
 
+/**
+ * Route Group for non-admin user
+ */
 Route::group(['middleware' => ['auth']], function() {
     Route::get('/getCompanies','CompaniesController@getCompanies');
     Route::get('/getCompany/{company}','CompaniesController@getCompany');
@@ -49,7 +61,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/getRelievers','RelieversController@getRelievers');
 
     //Classification Route
-    Route::get('/getClassifications','ClassificationsController@getClassifications');   
+    Route::get('/getClassifications','ClassificationsController@getClassifications');
 });
 
 Route::any('{any?}', function ($any = null) {

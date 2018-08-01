@@ -65,25 +65,25 @@
                     </li>
 
                     @role('admin')
-                    <li class="{{ Request::is('approvals*') ? 'active' : '' }}">
+                    {{-- <li class="{{ Request::is('approvals*') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ url('/approvals') }}">
                             <i class="nc-icon nc-bell-55"></i>
                             <p>Approvals</p>
                         </a>
-                    </li>
+                    </li> --}}
                     <li class="{{ Request::is('users*') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ url('/users') }}">
                             <i class="nc-icon nc-circle-09"></i>
                             <p>User Profile</p>
                         </a>
                     </li>
-                     <li class="{{ Request::is('roles*') ? 'active' : '' }}">
-                        <a class="nav-link disabled" href="{{ url('/roles') }}">
+                     <li class="{{ Request::is('rolePerms*') ? 'active' : '' }}">
+                        <a class="nav-link disabled" href="{{ url('/rolePerms') }}">
                             <i class="nc-icon nc-lock-circle-open"></i>
                             <p>Roles & Permission</p>
                         </a>
                     </li>
-                    
+
                     @endrole
 
                     <li class="nav-item active active-pro">
@@ -99,8 +99,8 @@
             <!-- Navbar -->
             <nav class="navbar navbar-expand-lg " color-on-scroll="500">
                 <div class=" container-fluid  ">
-                    <a class="navbar-brand" href="#pablo"> 
-                        
+                    <a class="navbar-brand" href="#pablo">
+
                         @if(Request::is('home') || Request::is('/'))
                             Dashboard
                         @elseif(Request::is('companies*'))
@@ -111,10 +111,12 @@
                             Approvals
                         @elseif(Request::is('users*'))
                             Users
-                        @elseif(Request::is('roles*'))
-                            Roles
-                        @endif    
-                        
+                        @elseif(Request::is('rolePerms*'))
+                            Roles & Permission
+                        @else
+                            Independent Contractual
+                        @endif
+
                     </a>
                     <button href="" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-bar burger-lines"></span>
@@ -127,7 +129,7 @@
                                 <a href="#" class="nav-link" data-toggle="dropdown">
                                     <span class="d-lg-none">Dashboard</span>
                                 </a>
-                            </li>                           
+                            </li>
                         </ul>
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item">
@@ -142,14 +144,14 @@
             <!-- End Navbar -->
             <div class="content">
                 <div class="container-fluid">
-                        
+
                     @yield('content')
 
                 </div>
                 <!-- end container-fluid -->
             </div>
             <!-- end content -->
-            
+
             <footer class="footer">
                 <div class="container">
                     <nav>
@@ -165,7 +167,7 @@
             </footer>
         </div>
     </div>
- 
+
         <!-- Logout Modal -->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -180,7 +182,7 @@
             Select "Logout" below if you are ready to end your current session.
           </div>
           <div class="modal-footer">
-              
+
             <button type="button" class="btn btn-secondary btn-fill" data-dismiss="modal">Cancel</button>
 
             <a class="btn btn-primary btn-fill" href="javascript::void(0);" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Confirm</a>
@@ -188,7 +190,7 @@
               <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
                             {{ csrf_field() }}
             </form>
-          
+
           </div>
         </div>
       </div>

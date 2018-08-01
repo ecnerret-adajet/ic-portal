@@ -29,7 +29,7 @@ class AppTest extends TestCase
         {
             $message->subject('Test');
             $message->from('no-reply@website_name.com', 'Website Name');
-            $message->to('terrence.tejada@lafilgroup.com');
+            $message->to('tejada.terrence@gmail.com');
         });
 
          echo json_encode(['Sent '. Carbon::now()], JSON_PRETTY_PRINT);
