@@ -4,9 +4,9 @@
 
 <div class="card" style="width:450px;">
   <div class="card-body">
-    <h4 class="card-title">Independent Companies</h4>
+    <h3 class="card-title">Assignment Portal</h3>
     <p class="card-text text-muted">Please sign in</p>
-    
+
 
     <form  method="POST" action="{{ route('login') }}">
     {{ csrf_field() }}
@@ -18,7 +18,7 @@
                 <div class="invalid-feedback">{{ $errors->first('email') }}</div>
             @endif
       </div>
-      
+
 
       <div class="form-group{{ $errors->has('password') ? ' has-danger' : '' }}">
             <label for="password" class="form-control-label">Password</label>

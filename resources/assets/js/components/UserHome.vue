@@ -27,7 +27,7 @@
                             <tr>
                                 <th>Name</th>
                                 <th>Email</th>
-                                <th>Assigned Company</th>
+                                <th>Assigned Provider</th>
                                 <th>Role</th>
                                 <th>Registered Date</th>
                                 <th></th>
@@ -51,7 +51,7 @@
                                         <a class="dropdown-item" href="#">Delete</a>
                                     </div>
                                     </div>
-                                
+
                                 </td>
                             </tr>
                         </tbody>
@@ -163,7 +163,7 @@ export default {
         totalPages() {
             return Math.ceil(this.filteredEntries.length / this.itemsPerPage)
         },
-        
+
         filteredQueues() {
             var index = this.currentPage * this.itemsPerPage;
             var queues_array = this.filteredEntries.slice(index, index + this.itemsPerPage);
@@ -177,7 +177,7 @@ export default {
             }
 
             return queues_array;
-        },       
+        },
 
     }
 

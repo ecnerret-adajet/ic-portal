@@ -1,15 +1,17 @@
 <template>
-    <div class="row">
+<div>
 
+
+    <div class="row">
         <div class="col">
             <div class="card">
                 <div class="header px-4">
-                    <h4 class="title mb-0">Companies
-                        <button class="btn btn-secondary btn-fill float-right">
-                            Add Company
+                    <h4 class="title mb-0">Provider
+                        <button class="btn btn-secondary btn-fill float-right" data-toggle="modal" data-target="#newCompany">
+                            Add Provider
                         </button>
                     </h4>
-                    <p class="category text-muted">Independent Companies</p>
+                    <p class="category text-muted">Independent Provider</p>
 
                     <div class="row mb-2">
                         <div class="col float-left">
@@ -25,7 +27,7 @@
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Number of labors</th>
+                                <th>Members</th>
                                 <th>Created Date</th>
                                 <th>Option</th>
                             </tr>
@@ -80,9 +82,46 @@
                 </div>
             </div>
         </div>
-
-
     </div>
+    <!-- end row -->
+
+
+    <!-- Add New Company Modal -->
+        <div class="modal fade" id="newCompany" tabindex="-1" role="dialog" aria-labelledby="newCompanyLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newCompanyLabel">Add New Provider</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+
+
+                <div class="form-group" :class="{ ' has-danger' : errors.name }">
+                    <label>Name</label>
+                    <input type="text" class="form-control" id="name" :class="{ 'is-invalid' : errors.name }" v-model="name" placeholder="Enter Name">
+                    <div v-if="errors.name" class="invalid-feedback">{{ errors.name[0] }}</div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <div class="row w-100 text-right ml-3">
+                    <div class="col">
+                        <button type="button" class="btn btn-secondary btn-fill" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary btn-fill" :disabled="validateFields" @click.prevent="storeCompany">Submit</button>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+
+
+
+</div>
 </template>
 <script>
 
@@ -93,15 +132,17 @@ import VueContentPlaceholders from 'vue-content-placeholders';
 Vue.use(Toasted)
 
 export default {
-    
+
     data() {
         return {
             loading: false,
             companies: [],
             labors: [],
+            name: '',
             search: '',
             currentPage: 0,
             itemsPerPage: 10,
+            errors: []
         }
     },
 
@@ -120,6 +161,23 @@ export default {
         getCompanies() {
             axios.get('/getCompanies')
             .then(response => this.companies = response.data);
+        },
+
+        storeCompany() {
+            axios.post('/companies', {
+                name : this.name
+            })
+            .then(response => {
+                this.companies.push(response.data)
+                //trigger close modal on success submission
+                $('#newCompany').modal('hide')
+                this.name = ''
+            })
+            .catch(error => {
+                if(error.response.status == 422) {
+                    this.errors = error.response.data.errors
+                }
+            })
         },
 
         compayLabors(company) {
@@ -149,6 +207,10 @@ export default {
 
     computed: {
 
+        validateFields() {
+            return this.name == '';
+        },
+
         filteredEntries() {
             return this.companies.filter(item => {
                 return item.name.toLowerCase().includes(this.search.toLowerCase());
@@ -158,7 +220,7 @@ export default {
         totalPages() {
             return Math.ceil(this.filteredEntries.length / this.itemsPerPage)
         },
-        
+
         filteredQueues() {
             var index = this.currentPage * this.itemsPerPage;
             var queues_array = this.filteredEntries.slice(index, index + this.itemsPerPage);
@@ -172,7 +234,7 @@ export default {
             }
 
             return queues_array;
-        },       
+        },
 
     }
 

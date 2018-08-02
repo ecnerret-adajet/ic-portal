@@ -10,7 +10,7 @@
                                <labor-create @pushToLabor="labors.unshift($event)" :company_id="company_id"></labor-create>
                            </span>
                         </h4>
-                        <p class="category text-muted">Independent Company</p>
+                        <p class="category text-muted">Independent Provider</p>
 
                          <div class="row mb-2">
                             <div class="col float-left">
@@ -39,8 +39,8 @@
                                 <tr>
                                 <th width="5%"></th>
                                 <th>Name</th>
-                                <th>Company</th>
-                                <th>Labor Code</th>
+                                <th>Provider</th>
+                                <th>Tag Id</th>
                                 <th>Card #</th>
                                 <th>Status</th>
                                 <th width="5%">Option</th>
@@ -52,14 +52,14 @@
                                 <label class="switch mt-2">
                                     <input type="checkbox" :checked="labor.status" @click="changeStatus(labor)">
                                     <span class="slider round"></span>
-                                </label> 
+                                </label>
                             </td>
                             <td>{{ labor.name }}</td>
                             <td>{{ labor.company }}</td>
                             <td>{{ labor.labor_code }}</td>
                             <td>{{ labor.card_no }}</td>
                             <td>{{ labor.classfication }}</td>
-                            <td><a href="javascript:void(0);" class="btn btn-primary btn-sm btn-fill" data-toggle="modal" @click="getCurrentLabor(labor)" :data-target="'#addReliever-'+labor.id">Reliever</a></td>
+                            <td><a href="javascript:void(0);" class="btn btn-primary btn-sm btn-fill" data-toggle="modal" @click="getCurrentLabor(labor)" :data-target="'#addReliever-'+labor.id">Assign</a></td>
                             </tr>
                             </tbody>
                         </table>
@@ -98,36 +98,36 @@
 
                     </div>
 
-                       
+
 
                     </div>
                 </div>
             </div>
             </div>
 
-    
+
 
          <!-- Add Reliever -->
         <div  v-for="(labor, l) in filteredQueues" :key="l" v-if="!loading"  class="modal fade" :id="'addReliever-'+labor.id" tabindex="-1" role="dialog" aria-labelledby="addReliever" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addReliever">Add To Reliver</h5>
+                <h5 class="modal-title" id="addReliever">Assign Member</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                
+
                 <div class="form-group">
-                    <label>From Worker</label>
+                    <label>From</label>
                     <input type="text" class="form-control" disabled :value="labor.name">
                 </div>
 
                 <div class="form-group">
-                    <label>To Worker</label>
+                    <label>To</label>
                     <select class="form-control" v-model="selectedToWorker">
-                        <option value=""  selected>All Worker</option>
+                        <option value="" selected>All Members</option>
                         <option v-for="(labor,i) in filterActiveLabors" :key="i" selected :value="labor.id">{{ labor.name }}</option>
                     </select>
                 </div>
@@ -147,18 +147,18 @@
                     <textarea rows="3" class="form-control" v-model="reasons">
                     </textarea>
                 </div>
-            
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" :disabled="allowToSubmit" @click.prevent="storeReliever" data-dismiss="modal">Submit</button>            
+                <button type="button" class="btn btn-primary" :disabled="allowToSubmit" @click.prevent="storeReliever" data-dismiss="modal">Submit</button>
             </div>
             </div>
         </div>
         </div>
         <!-- End Reliver -->
 
-       
+
 
 
     </div>
@@ -181,7 +181,7 @@ export default {
     props: [
         'company_id'
     ],
-    
+
     data() {
         return {
             loading: false,
@@ -205,7 +205,7 @@ export default {
 
         this.getLabors()
         this.getCompany()
-    
+
     },
 
     methods: {
@@ -217,7 +217,7 @@ export default {
         // newLabor(event){
         //     console.log(this.labors.unshift(event));
         // },
-        
+
         // Get Master Data
 
         getLabors() {
@@ -251,9 +251,9 @@ export default {
             .then(response => {
                 this.labors[this.findLabor(labor.id)] = response.data
                 console.log(response.data)
-                Vue.toasted.show("Updated Successfully!", { 
-                    theme: "primary", 
-                    position: "bottom-right", 
+                Vue.toasted.show("Updated Successfully!", {
+                    theme: "primary",
+                    position: "bottom-right",
                     duration : 5000
                 });
             })
@@ -315,7 +315,7 @@ export default {
         laborsFiltered() {
 
             var bySearch = this.filteredEntries;
-            
+
             if(this.filter == 'all') {
                 return this.labors && bySearch;
             } else if(this.filter == 'active') {
@@ -338,7 +338,7 @@ export default {
         totalPages() {
             return Math.ceil(this.laborsFiltered.length / this.itemsPerPage)
         },
-        
+
         filteredQueues() {
             var index = this.currentPage * this.itemsPerPage;
             var queues_array = this.laborsFiltered.slice(index, index + this.itemsPerPage);
@@ -352,8 +352,8 @@ export default {
             }
 
             return queues_array;
-        },       
-        
+        },
+
     }
 
 

@@ -28,7 +28,7 @@
             <div class="sidebar-wrapper">
                 <div class="logo">
                     <a href="#" class="simple-text">
-                        IC PORTAL
+                        ASSIGNMENT PORTAL
                     </a>
                 </div>
                 <ul class="nav">
@@ -43,7 +43,7 @@
                     <li class="{{ Request::is('companies*') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ url('/companies') }}">
                             <i class="nc-icon nc-bag"></i>
-                            <p>Companies</p>
+                            <p>Providers</p>
                         </a>
                     </li>
                     @endrole
@@ -52,7 +52,7 @@
                     <li class="{{ Request::is('companies*') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ url('companies/'.Auth::user()->company_id) }}">
                             <i class="nc-icon nc-bag"></i>
-                            <p>Companies</p>
+                            <p>Members</p>
                         </a>
                     </li>
                     @endif
@@ -60,7 +60,7 @@
                     <li class="{{ Request::is('relievers*') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ url('/relievers') }}">
                             <i class="nc-icon nc-paper-2"></i>
-                            <p>Relievers</p>
+                            <p>Assigned</p>
                         </a>
                     </li>
 

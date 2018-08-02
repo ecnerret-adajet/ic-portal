@@ -47,7 +47,15 @@ class CompaniesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|unique:companies,name',
+        ]);
+
+        $company = Company::create([
+            'name' => $request->input('name')
+        ]);
+
+        return $company;
     }
 
     /**
@@ -63,7 +71,7 @@ class CompaniesController extends Controller
 
         if(Gate::denies('view', $company)) {
             flashy()->error('Nope, You Cannot Do That!');
-            return back();            
+            return back();
         }
 
         return view('companies.show',compact('company'));
@@ -75,7 +83,7 @@ class CompaniesController extends Controller
     public function getCompany(Company $company)
     {
         return $company;
-    } 
+    }
 
     /**
      * Show the form for editing the specified resource.

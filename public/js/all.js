@@ -59941,6 +59941,45 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -59955,9 +59994,11 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_toasted___default.a);
             loading: false,
             companies: [],
             labors: [],
+            name: '',
             search: '',
             currentPage: 0,
-            itemsPerPage: 10
+            itemsPerPage: 10,
+            errors: []
         };
     },
     created: function created() {
@@ -59979,6 +60020,22 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_toasted___default.a);
 
             axios.get('/getCompanies').then(function (response) {
                 return _this2.companies = response.data;
+            });
+        },
+        storeCompany: function storeCompany() {
+            var _this3 = this;
+
+            axios.post('/companies', {
+                name: this.name
+            }).then(function (response) {
+                _this3.companies.push(response.data);
+                //trigger close modal on success submission
+                $('#newCompany').modal('hide');
+                _this3.name = '';
+            }).catch(function (error) {
+                if (error.response.status == 422) {
+                    _this3.errors = error.response.data.errors;
+                }
             });
         },
         compayLabors: function compayLabors(company) {
@@ -60004,11 +60061,14 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_toasted___default.a);
     },
 
     computed: {
+        validateFields: function validateFields() {
+            return this.name == '';
+        },
         filteredEntries: function filteredEntries() {
-            var _this3 = this;
+            var _this4 = this;
 
             return this.companies.filter(function (item) {
-                return item.name.toLowerCase().includes(_this3.search.toLowerCase());
+                return item.name.toLowerCase().includes(_this4.search.toLowerCase());
             });
         },
         totalPages: function totalPages() {
@@ -60807,170 +60867,275 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "row" }, [
-    _c("div", { staticClass: "col" }, [
-      _c("div", { staticClass: "card" }, [
-        _c("div", { staticClass: "header px-4" }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _c("p", { staticClass: "category text-muted" }, [
-            _vm._v("Independent Companies")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "row mb-2" }, [
-            _c("div", { staticClass: "col float-left" }, [
-              _c("div", { staticClass: "form-group w-100" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.search,
-                      expression: "search"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "Search by name" },
-                  domProps: { value: _vm.search },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
+  return _c("div", [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col" }, [
+        _c("div", { staticClass: "card" }, [
+          _c("div", { staticClass: "header px-4" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("p", { staticClass: "category text-muted" }, [
+              _vm._v("Independent Provider")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row mb-2" }, [
+              _c("div", { staticClass: "col float-left" }, [
+                _c("div", { staticClass: "form-group w-100" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.search,
+                        expression: "search"
                       }
-                      _vm.search = $event.target.value
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", placeholder: "Search by name" },
+                    domProps: { value: _vm.search },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.search = $event.target.value
+                      }
                     }
-                  }
-                })
+                  })
+                ])
               ])
             ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "content table-responsive" }, [
-          _c("table", { staticClass: "table table-hover table-striped" }, [
-            _vm._m(1),
-            _vm._v(" "),
-            _c(
-              "tbody",
-              _vm._l(_vm.filteredQueues, function(company, c) {
-                return _c("tr", { key: c }, [
-                  _c("td", [_vm._v(_vm._s(company.name))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(_vm.compayLabors(company.id)))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(_vm.moment(company.created_at)))]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c(
-                      "a",
-                      {
-                        staticClass: "btn btn-fill btn-primary",
-                        attrs: { href: "companies/" + company.id }
-                      },
-                      [
-                        _vm._v(
-                          "\n                                    Visit\n                                "
-                        )
-                      ]
-                    )
-                  ])
-                ])
-              })
-            )
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "card-body pb-0" }, [
-            _vm.filteredQueues.length == 0 && !_vm.loading
-              ? _c("div", { staticClass: "bg-light row mb-3" }, [_vm._m(2)])
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.loading
-              ? _c("div", { staticClass: "row p-3" }, [
-                  _c(
-                    "div",
-                    { staticClass: "col" },
-                    [
+          _c("div", { staticClass: "content table-responsive" }, [
+            _c("table", { staticClass: "table table-hover table-striped" }, [
+              _vm._m(1),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(_vm.filteredQueues, function(company, c) {
+                  return _c("tr", { key: c }, [
+                    _c("td", [_vm._v(_vm._s(company.name))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(_vm.compayLabors(company.id)))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(_vm.moment(company.created_at)))]),
+                    _vm._v(" "),
+                    _c("td", [
                       _c(
-                        "content-placeholders",
+                        "a",
                         {
-                          staticStyle: { border: "0 ! important" },
-                          attrs: { rounded: true }
+                          staticClass: "btn btn-fill btn-primary",
+                          attrs: { href: "companies/" + company.id }
                         },
                         [
-                          _c("content-placeholders-heading", {
-                            attrs: { img: true }
-                          }),
-                          _vm._v(" "),
-                          _c("content-placeholders-text", {
-                            attrs: { lines: 1 }
-                          }),
-                          _vm._v(" "),
-                          _c("hr"),
-                          _vm._v(" "),
-                          _c("content-placeholders-heading", {
-                            attrs: { img: true }
-                          }),
-                          _vm._v(" "),
-                          _c("content-placeholders-text", {
-                            attrs: { lines: 1 }
-                          })
-                        ],
-                        1
+                          _vm._v(
+                            "\r\n                                        Visit\r\n                                    "
+                          )
+                        ]
                       )
-                    ],
-                    1
-                  )
-                ])
-              : _vm._e(),
+                    ])
+                  ])
+                })
+              )
+            ]),
             _vm._v(" "),
-            _c("div", { staticClass: "row mb-3" }, [
-              _c("div", { staticClass: "col-6" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-default btn-sm btn-fill",
-                    attrs: { disabled: !_vm.showPreviousLink() },
-                    on: {
-                      click: function($event) {
-                        _vm.setPage(_vm.currentPage - 1)
+            _c("div", { staticClass: "card-body pb-0" }, [
+              _vm.filteredQueues.length == 0 && !_vm.loading
+                ? _c("div", { staticClass: "bg-light row mb-3" }, [_vm._m(2)])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.loading
+                ? _c("div", { staticClass: "row p-3" }, [
+                    _c(
+                      "div",
+                      { staticClass: "col" },
+                      [
+                        _c(
+                          "content-placeholders",
+                          {
+                            staticStyle: { border: "0 ! important" },
+                            attrs: { rounded: true }
+                          },
+                          [
+                            _c("content-placeholders-heading", {
+                              attrs: { img: true }
+                            }),
+                            _vm._v(" "),
+                            _c("content-placeholders-text", {
+                              attrs: { lines: 1 }
+                            }),
+                            _vm._v(" "),
+                            _c("hr"),
+                            _vm._v(" "),
+                            _c("content-placeholders-heading", {
+                              attrs: { img: true }
+                            }),
+                            _vm._v(" "),
+                            _c("content-placeholders-text", {
+                              attrs: { lines: 1 }
+                            })
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _c("div", { staticClass: "row mb-3" }, [
+                _c("div", { staticClass: "col-6" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-default btn-sm btn-fill",
+                      attrs: { disabled: !_vm.showPreviousLink() },
+                      on: {
+                        click: function($event) {
+                          _vm.setPage(_vm.currentPage - 1)
+                        }
                       }
-                    }
-                  },
-                  [_vm._v(" Previous ")]
-                ),
-                _vm._v(" "),
-                _c("span", { staticClass: "text-dark" }, [
-                  _vm._v(
-                    "Page " +
-                      _vm._s(_vm.currentPage + 1) +
-                      " of " +
-                      _vm._s(_vm.totalPages)
+                    },
+                    [_vm._v(" Previous ")]
+                  ),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "text-dark" }, [
+                    _vm._v(
+                      "Page " +
+                        _vm._s(_vm.currentPage + 1) +
+                        " of " +
+                        _vm._s(_vm.totalPages)
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-default btn-sm btn-fill",
+                      attrs: { disabled: !_vm.showNextLink() },
+                      on: {
+                        click: function($event) {
+                          _vm.setPage(_vm.currentPage + 1)
+                        }
+                      }
+                    },
+                    [_vm._v(" Next ")]
                   )
                 ]),
                 _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-default btn-sm btn-fill",
-                    attrs: { disabled: !_vm.showNextLink() },
-                    on: {
-                      click: function($event) {
-                        _vm.setPage(_vm.currentPage + 1)
-                      }
-                    }
-                  },
-                  [_vm._v(" Next ")]
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-6 text-right" }, [
-                _c("span", [_vm._v(_vm._s(_vm.companies.length) + " Labor(s)")])
+                _c("div", { staticClass: "col-6 text-right" }, [
+                  _c("span", [
+                    _vm._v(_vm._s(_vm.companies.length) + " Labor(s)")
+                  ])
+                ])
               ])
             ])
           ])
         ])
       ])
-    ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "newCompany",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "newCompanyLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(3),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass: "form-group",
+                    class: { " has-danger": _vm.errors.name }
+                  },
+                  [
+                    _c("label", [_vm._v("Name")]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.name,
+                          expression: "name"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      class: { "is-invalid": _vm.errors.name },
+                      attrs: {
+                        type: "text",
+                        id: "name",
+                        placeholder: "Enter Name"
+                      },
+                      domProps: { value: _vm.name },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.name = $event.target.value
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _vm.errors.name
+                      ? _c("div", { staticClass: "invalid-feedback" }, [
+                          _vm._v(_vm._s(_vm.errors.name[0]))
+                        ])
+                      : _vm._e()
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c("div", { staticClass: "row w-100 text-right ml-3" }, [
+                  _c("div", { staticClass: "col" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-secondary btn-fill",
+                        attrs: { type: "button", "data-dismiss": "modal" }
+                      },
+                      [_vm._v("Cancel")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary btn-fill",
+                        attrs: { type: "button", disabled: _vm.validateFields },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.storeCompany($event)
+                          }
+                        }
+                      },
+                      [_vm._v("Submit")]
+                    )
+                  ])
+                ])
+              ])
+            ])
+          ]
+        )
+      ]
+    )
   ])
 }
 var staticRenderFns = [
@@ -60979,10 +61144,19 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("h4", { staticClass: "title mb-0" }, [
-      _vm._v("Companies\n                    "),
-      _c("button", { staticClass: "btn btn-secondary btn-fill float-right" }, [
-        _vm._v("\n                        Add Company\n                    ")
-      ])
+      _vm._v("Provider\r\n                        "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-secondary btn-fill float-right",
+          attrs: { "data-toggle": "modal", "data-target": "#newCompany" }
+        },
+        [
+          _vm._v(
+            "\r\n                            Add Provider\r\n                        "
+          )
+        ]
+      )
     ])
   },
   function() {
@@ -60993,7 +61167,7 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_vm._v("Name")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Number of labors")]),
+        _c("th", [_vm._v("Members")]),
         _vm._v(" "),
         _c("th", [_vm._v("Created Date")]),
         _vm._v(" "),
@@ -61010,6 +61184,31 @@ var staticRenderFns = [
         "h3",
         { staticClass: "mt-3 p-3 font-weight-light text-muted text-uppercase" },
         [_vm._v("Nothing found")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "newCompanyLabel" } },
+        [_vm._v("Add New Provider")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
       )
     ])
   }
@@ -61634,7 +61833,7 @@ var render = function() {
         staticClass: "btn btn-secondary btn-fill",
         attrs: { "data-toggle": "modal", "data-target": "#addLabor" }
       },
-      [_vm._v("\n        Add New Labor\n    ")]
+      [_vm._v("\n        Add New Member\n    ")]
     ),
     _vm._v(" "),
     _c(
@@ -61685,7 +61884,7 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
-                  _c("label", [_vm._v("Company")]),
+                  _c("label", [_vm._v("Provider")]),
                   _vm._v(" "),
                   _c("input", {
                     directives: [
@@ -61801,7 +62000,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "modal-header" }, [
       _c("h5", { staticClass: "modal-title", attrs: { id: "addLabor" } }, [
-        _vm._v("Add New Labor")
+        _vm._v("Add New Member")
       ]),
       _vm._v(" "),
       _c(
@@ -61863,7 +62062,7 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("p", { staticClass: "category text-muted" }, [
-                _vm._v("Independent Company")
+                _vm._v("Independent Provider")
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "row mb-2" }, [
@@ -62018,7 +62217,7 @@ var render = function() {
                                   }
                                 }
                               },
-                              [_vm._v("Reliever")]
+                              [_vm._v("Assign")]
                             )
                           ])
                         ])
@@ -62151,7 +62350,7 @@ var render = function() {
                       _vm._v(" "),
                       _c("div", { staticClass: "modal-body" }, [
                         _c("div", { staticClass: "form-group" }, [
-                          _c("label", [_vm._v("From Worker")]),
+                          _c("label", [_vm._v("From")]),
                           _vm._v(" "),
                           _c("input", {
                             staticClass: "form-control",
@@ -62161,7 +62360,7 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "form-group" }, [
-                          _c("label", [_vm._v("To Worker")]),
+                          _c("label", [_vm._v("To")]),
                           _vm._v(" "),
                           _c(
                             "select",
@@ -62196,7 +62395,7 @@ var render = function() {
                               _c(
                                 "option",
                                 { attrs: { value: "", selected: "" } },
-                                [_vm._v("All Worker")]
+                                [_vm._v("All Members")]
                               ),
                               _vm._v(" "),
                               _vm._l(_vm.filterActiveLabors, function(
@@ -62348,9 +62547,9 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Name")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Company")]),
+        _c("th", [_vm._v("Provider")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Labor Code")]),
+        _c("th", [_vm._v("Tag Id")]),
         _vm._v(" "),
         _c("th", [_vm._v("Card #")]),
         _vm._v(" "),
@@ -62378,7 +62577,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "modal-header" }, [
       _c("h5", { staticClass: "modal-title", attrs: { id: "addReliever" } }, [
-        _vm._v("Add To Reliver")
+        _vm._v("Assign Member")
       ]),
       _vm._v(" "),
       _c(
@@ -62655,10 +62854,10 @@ var render = function() {
       _c("div", { staticClass: "col" }, [
         _c("div", { staticClass: "card" }, [
           _c("div", { staticClass: "header pl-4" }, [
-            _c("h4", { staticClass: "title mb-0" }, [_vm._v("Relievers")]),
+            _c("h4", { staticClass: "title mb-0" }, [_vm._v("Assigned")]),
             _vm._v(" "),
             _c("p", { staticClass: "category text-muted" }, [
-              _vm._v("Assigned Relievers")
+              _vm._v("All Assigned Members")
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "row mb-2" }, [
@@ -62871,15 +63070,15 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("From Worker")]),
+        _c("th", [_vm._v("From")]),
         _vm._v(" "),
-        _c("th", [_vm._v("To Worker")]),
+        _c("th", [_vm._v("To")]),
         _vm._v(" "),
         _c("th", [_vm._v("From Date")]),
         _vm._v(" "),
         _c("th", [_vm._v("To Date")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Company")]),
+        _c("th", [_vm._v("Provider")]),
         _vm._v(" "),
         _c("th", [_vm._v("Approved By")])
       ])
@@ -63332,7 +63531,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Email")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Assigned Company")]),
+        _c("th", [_vm._v("Assigned Provider")]),
         _vm._v(" "),
         _c("th", [_vm._v("Role")]),
         _vm._v(" "),

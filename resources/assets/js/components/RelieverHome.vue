@@ -1,13 +1,13 @@
 <template>
     <div>
-        
+
 
         <div class="row">
             <div class="col">
                 <div class="card">
                     <div class="header pl-4">
-                        <h4 class="title mb-0">Relievers</h4>
-                        <p class="category text-muted">Assigned Relievers</p>          
+                        <h4 class="title mb-0">Assigned</h4>
+                        <p class="category text-muted">All Assigned Members</p>
 
                     <div class="row mb-2">
                         <div class="col float-left">
@@ -34,11 +34,11 @@
                      <table class="table table-hover table-striped">
                             <thead>
                                 <tr>
-                                <th>From Worker</th>
-                                <th>To Worker</th>
+                                <th>From</th>
+                                <th>To</th>
                                 <th>From Date</th>
                                 <th>To Date</th>
-                                <th>Company</th>
+                                <th>Provider</th>
                                 <th>Approved By</th>
                                 </tr>
                             </thead>
@@ -166,7 +166,7 @@ export default {
         totalPages() {
             return Math.ceil(this.filteredEntries.length / this.itemsPerPage)
         },
-        
+
         filteredQueues() {
             var index = this.currentPage * this.itemsPerPage;
             var queues_array = this.filteredEntries.slice(index, index + this.itemsPerPage);
@@ -180,7 +180,7 @@ export default {
             }
 
             return queues_array;
-        },       
+        },
     }
 }
 </script>

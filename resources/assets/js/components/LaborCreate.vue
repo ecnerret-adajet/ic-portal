@@ -2,7 +2,7 @@
     <div>
 
         <button class="btn btn-secondary btn-fill" data-toggle="modal" data-target="#addLabor">
-            Add New Labor
+            Add New Member
         </button>
 
          <!-- Add Labor -->
@@ -10,20 +10,20 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addLabor">Add New Labor</h5>
+                <h5 class="modal-title" id="addLabor">Add New Member</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                
+
                 <div class="form-group">
                     <label>Name</label>
                     <input type="text" class="form-control" v-model="labor.name">
                 </div>
 
                 <div class="form-group">
-                    <label>Company</label>
+                    <label>Provider</label>
                     <input type="text" disabled class="form-control" v-model="labor.company">
                 </div>
 
@@ -34,12 +34,12 @@
                         <option v-for="(x,i) in removeResiged" :key="i" selected :value="x.id">{{ x.name }}</option>
                     </select>
                 </div>
-                
-            
+
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" @click="storeLabor" data-dismiss="modal">Submit</button>            
+                <button type="button" class="btn btn-primary" @click="storeLabor" data-dismiss="modal">Submit</button>
             </div>
             </div>
         </div>
@@ -109,7 +109,7 @@ export default {
     },
 
     computed: {
-        
+
         filterCompany() {
             if(this.companies) {
                 return this.companies.find(company => company.id == this.company_id);
