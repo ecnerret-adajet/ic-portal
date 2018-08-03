@@ -9,6 +9,13 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+import Vuex from 'vuex';
+import StoreData from './vuex/store';
+
+Vue.use(Vuex);
+
+const store = new Vuex.Store(StoreData);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -24,5 +31,6 @@ Vue.component('roles-permissions', require('./components/RolesPermissions.vue'))
 
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    store
 });

@@ -25,11 +25,11 @@
                     </div>
                     <div class="col">
                         <label>Company</label>
-                        <select class="form-control form-control-lg rounded-0" :class="{ 'is-invalid' : errors.company }" v-model="user.company">
+                        <select class="form-control form-control-lg rounded-0" :class="{ 'is-invalid' : errors.company_list }" v-model="user.company">
                             <option selected value="">Select Company</option>
                             <option v-for="(company, c) in companies" :key="c" :value="company.id">{{ company.name }}</option>
                         </select>
-                        <div v-if="errors.company" class="invalid-feedback">{{ errors.company[0] }}</div>
+                        <div v-if="errors.company_list" class="invalid-feedback">{{ errors.company_list[0] }}</div>
                     </div>
                 </div>
 
@@ -41,31 +41,28 @@
                    </div>
                    <div class="col">
                     <label>Email</label>
-                    <input type="email" class="form-control form-control-lg rounded-0" :class="{ 'is-invalid' : errors.email }"  id="name" v-model="user.email" placeholder="Enter Email">
+                    <input type="email" class="form-control form-control-lg rounded-0" :class="{ 'is-invalid' : errors.email }"  id="email" v-model="user.email" placeholder="Enter Email">
                     <div v-if="errors.email" class="invalid-feedback">{{ errors.email[0] }}</div>
                    </div>
                 </div>
 
-                <div class="form-group form-row" :class="{ ' has-danger' : errors.email }">
+                <div class="form-group form-row" :class="{ ' has-danger' : errors.password }">
                     <div class="col">
-                    <label>Email</label>
-                    <input type="email" class="form-control form-control-lg rounded-0" :class="{ 'is-invalid' : errors.email }"  id="name" v-model="user.email" placeholder="Enter Name">
-                    <div v-if="errors.email" class="invalid-feedback">{{ errors.email[0] }}</div>
+                        <label>Password</label>
+                        <input type="password" class="form-control form-control-lg rounded-0" :class="{ 'is-invalid' : errors.password }"  id="password" v-model="user.password" placeholder="Enter Password">
+                        <div v-if="errors.password" class="invalid-feedback">{{ errors.password[0] }}</div>
                     </div>
-                </div>
-
-                <div class="form-group form-row" :class="{ ' has-danger' : errors.passowrd }">
                     <div class="col">
-                    <label>Password</label>
-                    <input type="text" class="form-control form-control-lg rounded-0" :class="{ 'is-invalid' : errors.passowrd }"  id="name" v-model="user.password" placeholder="Enter Password">
-                    <div v-if="errors.passowrd" class="invalid-feedback">{{ errors.passowrd[0] }}</div>
+                        <label>Confirm Password</label>
+                        <input type="password" class="form-control form-control-lg rounded-0" :class="{ 'is-invalid' : errors.password_confirmation }"  id="password_confirm" v-model="user.password_confirmation" placeholder="Enter Password">
+                        <div v-if="errors.password_confirmation" class="invalid-feedback">{{ errors.password_confirmation[0] }}</div>
                     </div>
                 </div>
 
 
                 <div class="row">
                     <div class="col text-right">
-                        <button class="btn btn-primary btn-fill rounded p-3" style="width: 150px">
+                        <button class="btn btn-primary btn-fill rounded p-3" @click="storeUser" style="width: 150px">
                             Submit
                         </button>
                     </div>
@@ -102,7 +99,7 @@ export default {
                 name: '',
                 email: '',
                 password: '',
-                confirmPassword: ''
+                password_confirmation: ''
             }
         }
     },
@@ -128,9 +125,10 @@ export default {
             axios.post('/users', {
                 name : this.user.name,
                 password : this.user.password,
+                password_confirmation: this.user.password_confirmation,
                 email : this.user.email,
                 role_list : this.user.role,
-                company_list : this.user.company
+                company_list : this.user.company,
             })
             .then(response => {
                 window.location = response.data.redirect;

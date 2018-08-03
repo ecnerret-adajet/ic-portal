@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use jeremykenedy\LaravelRoles\Models\Role;
-use jeremykenedy\LaravelRoles\Models\Permission;
-use Illuminate\Http\Request;
+use Flashy;
 use App\User;
 use App\Company;
-use Flashy;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\UserResource;
+use jeremykenedy\LaravelRoles\Models\Role;
+use jeremykenedy\LaravelRoles\Models\Permission;
 
 class UsersController extends Controller
 {
@@ -70,9 +72,8 @@ class UsersController extends Controller
 
 
         flashy()->success('Driver has successfully updated!');
-        return redirect('users');
-
-        // return ['redirect' => route('manager-checks.show', $managercheck)];
+        // return redirect('users');
+        return ['redirect' => route('users.index')];
     }
 
     /**
@@ -134,5 +135,10 @@ class UsersController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function currentUser()
+    {
+        return new UserResource(User::find(Auth::user()->id));
     }
 }

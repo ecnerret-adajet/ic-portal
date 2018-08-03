@@ -37,7 +37,7 @@ class User extends Authenticatable
     }
 
     // Relationship Model
-    
+
     public function labors() {
         return $this->hasMany(Labor::class);
     }
@@ -45,6 +45,7 @@ class User extends Authenticatable
     public function relievers() {
         return $this->hasMany(Reliver::class);
     }
+
 
     // Custom casting to json
 
@@ -60,5 +61,5 @@ class User extends Authenticatable
         ];
     }
 
-    
+
 }

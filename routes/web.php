@@ -50,6 +50,9 @@ Route::group(['middleware' => ['role:admin']], function() {
  * Route Group for non-admin user
  */
 Route::group(['middleware' => ['auth']], function() {
+
+    Route::get('/currentUser','UsersController@currentUser');
+
     Route::get('/getCompanies','CompaniesController@getCompanies');
     Route::get('/getCompany/{company}','CompaniesController@getCompany');
     Route::resource('/companies','CompaniesController');
