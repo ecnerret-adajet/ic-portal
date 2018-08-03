@@ -19,6 +19,7 @@ Vue.component('company-home', require('./components/CompanyHome.vue'));
 Vue.component('company-show', require('./components/CompanyShow.vue'));
 Vue.component('reliever-home', require('./components/RelieverHome.vue'));
 Vue.component('user-home', require('./components/UserHome.vue'));
+Vue.component('user-create', require('./components/UserCreate.vue'));
 Vue.component('roles-permissions', require('./components/RolesPermissions.vue'));
 
 

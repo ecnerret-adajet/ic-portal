@@ -12,14 +12,22 @@
                         <p class="card-category">All User roles</p>
                     </div>
                     <div class="card-body">
-                         <div class="list-group list-group-flush">
-                                <a href="javascript:void(0);" v-for="(role, r) in roles" :key="r"
-                                                        @click="selectedRole = role.id"
-                                                        class="list-group-item list-group-item-action"
-                                                        :class="{ active : role.id == selectedRole }">
-                                    {{ role.name }}
-                                </a>
-                            </div>
+
+                        <div class="list-group list-group-flush">
+                            <a href="javascript:void(0);" v-for="(role, r) in roles" :key="r"
+                                                    @click="selectedRole = role.id"
+                                                    class="list-group-item list-group-item-action role-item"
+                                                    :class="{ active : role.id == selectedRole }">
+                                <span>
+                                {{ role.name }}
+                                </span>
+                                <span class="remove-item">
+                                    <i class="nc-icon nc-simple-remove" @click="removeRole(role)"></i>
+
+                                </span>
+                            </a>
+                        </div>
+
                     </div>
                     <div class="card-footer ">
                         <hr>
@@ -38,7 +46,7 @@
             </div>
         </div>
 
-         <!-- Add New Permission Modal -->
+         <!-- Add New Role Modal -->
         <div class="modal fade" id="newRole" tabindex="-1" role="dialog" aria-labelledby="newRoleLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -169,6 +177,30 @@ export default {
 
         },
 
+        removeRole(role) {
+            axios.delete(`/removeRole/${role.id}`, {
+                role: this.role.id
+            })
+            .then(response => {
+                this.roles.splice(this.roles.indexOf(role), 1)
+                this.selectedRole = this.roles.slice(-1)[0]['id']
+                 Vue.toasted.show("Added Successfully!", {
+                    theme: "primary",
+                    position: "bottom-right",
+                    duration : 5000
+                });
+            })
+            .catch(error => {
+                if(error.response.status == 500) {
+                    Vue.toasted.show("You cannot delete admin role!", {
+                        theme: "primary",
+                        position: "bottom-right",
+                        duration : 5000
+                    });
+                }
+            })
+        },
+
     },
 
     computed: {
@@ -190,3 +222,23 @@ export default {
 
 }
 </script>
+<style lang="scss" scoped>
+    .role-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        animation-duration: 0.3s;
+    }
+    .role-item:hover > .remove-item {
+        opacity: 1;
+    }
+    .remove-item {
+        opacity: 0;
+        cursor: pointer;
+        margin-left: 14px;
+        &:hover {
+            color: black;
+        }
+    }
+</style>
+

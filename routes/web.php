@@ -43,6 +43,7 @@ Route::group(['middleware' => ['role:admin']], function() {
     Route::get('/getPermissions','RolesPermissionsController@getPermissions');
     Route::post('/storePermission','RolesPermissionsController@storePermission');
     Route::patch('/attachOrDetach/{role}','RolesPermissionsController@attachOrDetach');
+    Route::delete('/removeRole/{role}','RolesPermissionsController@removeRole');
 });
 
 /**

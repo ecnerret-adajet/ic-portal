@@ -65,12 +65,14 @@ class UsersController extends Controller
             'password' => bcrypt($request->input('password')),
         ]);
         $user->attachRole($request->input('role_list'));
-        $user->company()->associate($request->input('company_list'));        
+        $user->company()->associate($request->input('company_list'));
         $user->save();
 
 
         flashy()->success('Driver has successfully updated!');
         return redirect('users');
+
+        // return ['redirect' => route('manager-checks.show', $managercheck)];
     }
 
     /**

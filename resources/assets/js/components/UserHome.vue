@@ -1,12 +1,15 @@
 <template>
+<div>
+
+
     <div class="row">
         <div class="col">
             <div class="card">
                 <div class="header px-4">
                     <h4 class="title mb-0">Users
-                        <button class="btn btn-secondary btn-fill float-right">
+                        <a class="btn btn-secondary btn-fill float-right" href="/users/create">
                             Add User
-                        </button>
+                        </a>
                     </h4>
                     <p class="categoory text-muted">All Users in portal</p>
 
@@ -99,6 +102,9 @@
             <!-- end card -->
         </div>
     </div>
+    <!-- end row -->
+
+</div>
 </template>
 <script>
 

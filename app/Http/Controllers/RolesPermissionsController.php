@@ -103,8 +103,14 @@ class RolesPermissionsController extends Controller
         return $getRole;
     }
 
-
-
-
+    public function removeRole(Request $request, Role $role)
+    {
+        if($role->id != 1) {
+            $role->delete();
+            return $role;
+        } else {
+            return Response::json(['message' => 'Cannot delete admin role'], 500);
+        }
+    }
 
 }

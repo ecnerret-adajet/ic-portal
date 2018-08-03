@@ -59,7 +59,11 @@
                             <td>{{ labor.labor_code }}</td>
                             <td>{{ labor.card_no }}</td>
                             <td>{{ labor.classfication }}</td>
-                            <td><a href="javascript:void(0);" class="btn btn-primary btn-sm btn-fill" data-toggle="modal" @click="getCurrentLabor(labor)" :data-target="'#addReliever-'+labor.id">Assign</a></td>
+                            <td>
+                                <a href="javascript:void(0);" :class="{ disabled : labor.status == 0 }" class="btn btn-primary btn-sm btn-fill"
+                                                                data-toggle="modal" @click="getCurrentLabor(labor)"
+                                                                :data-target="'#addReliever-'+labor.id">Assign</a>
+                            </td>
                             </tr>
                             </tbody>
                         </table>
@@ -201,6 +205,12 @@ export default {
         }
     },
 
+    watch: {
+        filter() {
+            return this.getLabors()
+        }
+    },
+
     created() {
 
         this.getLabors()
@@ -250,7 +260,6 @@ export default {
             })
             .then(response => {
                 this.labors[this.findLabor(labor.id)] = response.data
-                console.log(response.data)
                 Vue.toasted.show("Updated Successfully!", {
                     theme: "primary",
                     position: "bottom-right",
