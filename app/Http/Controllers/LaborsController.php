@@ -60,7 +60,7 @@ class LaborsController extends Controller
     /**
      * Change labors status
      */
-    public function changeStatus(Labor $labor) 
+    public function changeStatus(Labor $labor)
     {
         if($labor->status == 1) {
             $labor->status = 0;
@@ -89,6 +89,19 @@ class LaborsController extends Controller
         $labors = Labor::orderBy('id','DESC')->get();
 
         return $labors;
+    }
+
+
+    public function updateDetails(Request $request, Labor $labor)
+    {
+        $this->validate($request, [
+            'name' => 'required',
+        ]);
+
+        $labor->name = $request->input('name');
+        $labor->save();
+
+        return $labor;
     }
 
     /**

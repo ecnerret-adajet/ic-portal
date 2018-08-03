@@ -61,9 +61,11 @@
                             <td>{{ labor.classfication }}</td>
                             <td v-if="checkPermission(16)">
                                 <!-- check if user has a permission to assign a member -->
-                                <a href="javascript:void(0);" :class="{ disabled : labor.status == 0 }" class="btn btn-primary btn-sm btn-fill"
+                                <a href="javascript:void(0);"  :class="{ disabled : labor.status == 0 }" class="btn btn-primary btn-sm btn-fill"
                                                                 data-toggle="modal" @click="getCurrentLabor(labor)"
                                                                 :data-target="'#addReliever-'+labor.id">Assign</a>
+
+                                <update-labor @updateLabor="labor.name = $event" :labor="labor"></update-labor>
 
                             </td>
                             </tr>
@@ -175,6 +177,7 @@ import Toasted from 'vue-toasted';
 import moment from 'moment';
 import VueContentPlaceholders from 'vue-content-placeholders';
 import LaborCreate from './LaborCreate.vue'
+import UpdateLabor from './UpdateLabor.vue'
 import { mapState } from 'vuex';
 
 Vue.use(Toasted)
@@ -182,7 +185,8 @@ Vue.use(Toasted)
 export default {
 
     components: {
-        LaborCreate
+        LaborCreate,
+        UpdateLabor
     },
 
     props: [

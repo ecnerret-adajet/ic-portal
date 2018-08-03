@@ -51,16 +51,22 @@ Route::group(['middleware' => ['role:admin']], function() {
  */
 Route::group(['middleware' => ['auth']], function() {
 
+    // User
     Route::get('/currentUser','UsersController@currentUser');
 
+    // Companies or Providers
     Route::get('/getCompanies','CompaniesController@getCompanies');
     Route::get('/getCompany/{company}','CompaniesController@getCompany');
     Route::resource('/companies','CompaniesController');
 
+    // Labors or Members
     Route::get('/getLaborByCompany/{company}','LaborsController@getLaborByCompany');
     Route::get('/getLabors','LaborsController@getLabors');
     Route::patch('/changeStatus/{labor}','LaborsController@changeStatus');
+    Route::patch('/updateDetails/{labor}','LaborsController@updateDetails');
     Route::resource('/labors','LaborsController');
+
+    // Relievers or Assign
     Route::resource('/relievers','RelieversController');
     Route::get('/getRelievers','RelieversController@getRelievers');
 
