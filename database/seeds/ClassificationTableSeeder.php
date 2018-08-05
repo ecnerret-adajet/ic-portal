@@ -13,10 +13,7 @@ class ClassificationTableSeeder extends Seeder
     {
         DB::table('classifications')->insert([
             [
-                'name' => 'Regular'
-            ],
-            [
-                'name' => 'Probationary'
+                'name' => 'Deployed'
             ],
             [
                 'name' => 'Resigned'

@@ -44,6 +44,15 @@ class RolesTableSeeder extends Seeder
 	            'description' => 'Unverified Role',
 	            'level' => 0,
 	        ]);
+		}
+
+    	if (Role::where('name', '=', 'Representative')->first() === null) {
+	        $userRole = Role::create([
+	            'name' => 'Representative',
+	            'slug' => 'representative',
+	            'description' => 'Assigned role for providers representative',
+	            'level' => 2,
+	        ]);
 	    }
 
     }

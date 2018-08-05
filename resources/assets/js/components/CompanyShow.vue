@@ -6,7 +6,7 @@
                 <div class="card">
                     <div class="header pl-4">
                         <h4 class="title mb-0">{{ company.name }}
-                           <span v-if="checkPermission(14)" class="float-right text-right mr-4">
+                           <span v-if="checkPermission('add.member')" class="float-right text-right mr-4">
                                <labor-create @pushToLabor="labors.unshift($event)" :company_id="company_id"></labor-create>
                            </span>
                         </h4>
@@ -37,18 +37,18 @@
                         <table class="table table-hover table-striped">
                             <thead>
                                 <tr>
-                                <th v-if="checkPermission(15)" width="5%"></th>
+                                <th v-if="checkPermission('marked.member')" width="5%"></th>
                                 <th>Name</th>
                                 <th>Provider</th>
                                 <th>Tag Id</th>
                                 <th>Card #</th>
                                 <th>Status</th>
-                                <th v-if="checkPermission(16)" width="5%">Option</th>
+                                <th width="5%">Option</th>
                                 </tr>
                             </thead>
                             <tbody>
                         <tr v-for="(labor, l) in filteredQueues" :key="l" v-if="!loading">
-                            <td v-if="checkPermission(15)" class="text-center">
+                            <td v-if="checkPermission('marked.member')" class="text-center">
                                 <label class="switch mt-2">
                                     <input type="checkbox" :checked="labor.status" @click="changeStatus(labor)">
                                     <span class="slider round"></span>
@@ -59,13 +59,13 @@
                             <td>{{ labor.labor_code }}</td>
                             <td>{{ labor.card_no }}</td>
                             <td>{{ labor.classfication }}</td>
-                            <td v-if="checkPermission(16)">
+                            <td>
                                 <!-- check if user has a permission to assign a member -->
-                                <a href="javascript:void(0);"  :class="{ disabled : labor.status == 0 }" class="btn btn-primary btn-sm btn-fill"
+                                <a v-if="checkPermission('assign.member')" href="javascript:void(0);"  :class="{ disabled : labor.status == 0 }" class="btn btn-primary btn-sm btn-fill"
                                                                 data-toggle="modal" @click="getCurrentLabor(labor)"
                                                                 :data-target="'#addReliever-'+labor.id">Assign</a>
 
-                                <update-labor @updateLabor="labor.name = $event" :labor="labor"></update-labor>
+                                <update-labor v-if="checkPermission('update.member')" @updateLabor="labor.name = $event" :labor="labor"></update-labor>
 
                             </td>
                             </tr>
@@ -271,6 +271,7 @@ export default {
             })
             .then(response => {
                 this.labors[this.findLabor(labor.id)] = response.data
+                labor.status == 0 ? labor.status = 1 : labor.status = 0
                 Vue.toasted.show("Updated Successfully!", {
                     theme: "primary",
                     position: "bottom-right",
@@ -295,8 +296,8 @@ export default {
             })
         },
 
-        checkPermission(id) {
-            return this.currentUser.some(current => current.id == id);
+        checkPermission(slug) {
+            return this.currentUser.some(current => current.slug == slug);
         },
 
         setPage(pageNumber) {

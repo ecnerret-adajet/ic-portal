@@ -62774,6 +62774,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_toasted___default.a);
                 status: labor.status
             }).then(function (response) {
                 _this3.labors[_this3.findLabor(labor.id)] = response.data;
+                labor.status == 0 ? labor.status = 1 : labor.status = 0;
                 Vue.toasted.show("Updated Successfully!", {
                     theme: "primary",
                     position: "bottom-right",
@@ -62795,9 +62796,9 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_toasted___default.a);
                 window.location = response.data.redirect;
             });
         },
-        checkPermission: function checkPermission(id) {
+        checkPermission: function checkPermission(slug) {
             return this.currentUser.some(function (current) {
-                return current.id == id;
+                return current.slug == slug;
             });
         },
         setPage: function setPage(pageNumber) {
@@ -63581,7 +63582,7 @@ var render = function() {
             _c("div", { staticClass: "header pl-4" }, [
               _c("h4", { staticClass: "title mb-0" }, [
                 _vm._v(_vm._s(_vm.company.name) + "\n                       "),
-                _vm.checkPermission(14)
+                _vm.checkPermission("add.member")
                   ? _c(
                       "span",
                       { staticClass: "float-right text-right mr-4" },
@@ -63709,7 +63710,7 @@ var render = function() {
               _c("table", { staticClass: "table table-hover table-striped" }, [
                 _c("thead", [
                   _c("tr", [
-                    _vm.checkPermission(15)
+                    _vm.checkPermission("marked.member")
                       ? _c("th", { attrs: { width: "5%" } })
                       : _vm._e(),
                     _vm._v(" "),
@@ -63723,9 +63724,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("th", [_vm._v("Status")]),
                     _vm._v(" "),
-                    _vm.checkPermission(16)
-                      ? _c("th", { attrs: { width: "5%" } }, [_vm._v("Option")])
-                      : _vm._e()
+                    _c("th", { attrs: { width: "5%" } }, [_vm._v("Option")])
                   ])
                 ]),
                 _vm._v(" "),
@@ -63734,7 +63733,7 @@ var render = function() {
                   _vm._l(_vm.filteredQueues, function(labor, l) {
                     return !_vm.loading
                       ? _c("tr", { key: l }, [
-                          _vm.checkPermission(15)
+                          _vm.checkPermission("marked.member")
                             ? _c("td", { staticClass: "text-center" }, [
                                 _c("label", { staticClass: "switch mt-2" }, [
                                   _c("input", {
@@ -63762,11 +63761,11 @@ var render = function() {
                           _vm._v(" "),
                           _c("td", [_vm._v(_vm._s(labor.classfication))]),
                           _vm._v(" "),
-                          _vm.checkPermission(16)
-                            ? _c(
-                                "td",
-                                [
-                                  _c(
+                          _c(
+                            "td",
+                            [
+                              _vm.checkPermission("assign.member")
+                                ? _c(
                                     "a",
                                     {
                                       staticClass:
@@ -63785,9 +63784,11 @@ var render = function() {
                                       }
                                     },
                                     [_vm._v("Assign")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("update-labor", {
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.checkPermission("update.member")
+                                ? _c("update-labor", {
                                     attrs: { labor: labor },
                                     on: {
                                       updateLabor: function($event) {
@@ -63795,10 +63796,10 @@ var render = function() {
                                       }
                                     }
                                   })
-                                ],
-                                1
-                              )
-                            : _vm._e()
+                                : _vm._e()
+                            ],
+                            1
+                          )
                         ])
                       : _vm._e()
                   })
