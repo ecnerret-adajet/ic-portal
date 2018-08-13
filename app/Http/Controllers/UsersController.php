@@ -190,13 +190,8 @@ class UsersController extends Controller
      */
     public function disclaimer(Request $request, User $user)
     {
-        $this->validate($request,[
-            'agree' => 'required',
-        ]);
-
         $user->disclaimer = $request->input('agree');
         $user->save();
-
         return 'success';
     }
 }

@@ -49,7 +49,11 @@ Vue.use(Toasted)
 
 export default {
 
-    props: ['user'],
+    props: {
+        user: {
+            type: Number,
+        }
+    },
 
     data() {
         return {

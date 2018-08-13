@@ -67659,7 +67659,11 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_toasted___default.a);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 
-    props: ['user'],
+    props: {
+        user: {
+            type: Number
+        }
+    },
 
     data: function data() {
         return {

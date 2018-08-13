@@ -207,7 +207,7 @@
 
         <!-- disclaimer modal -->
         @if(Auth::user()->disclaimer == 0)
-            <disclaimer user="{{ Auth::user()->id }}"></disclaimer>
+            <disclaimer :user="{{ Auth::user()->id }}"></disclaimer>
         @endif
 
     </div><!-- end app -->

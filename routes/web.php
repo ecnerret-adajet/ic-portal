@@ -52,8 +52,8 @@ Route::group(['middleware' => ['role:admin']], function() {
 Route::group(['middleware' => ['auth']], function() {
 
     // User
-    Route::get('/currentUser','UsersController@currentUser');
     Route::patch('/disclaimer/{user}','UsersController@disclaimer');
+    Route::get('/currentUser','UsersController@currentUser');
     Route::get('/profile/edit/{user}','UsersController@profileEdit');
     Route::patch('/profile/update/{user}','UsersController@profileUpdate');
 
