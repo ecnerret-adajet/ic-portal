@@ -53,6 +53,7 @@ Route::group(['middleware' => ['auth']], function() {
 
     // User
     Route::get('/currentUser','UsersController@currentUser');
+    Route::patch('/disclaimer/{user}','UsersController@disclaimer');
 
     // Companies or Providers
     Route::get('/getCompanies','CompaniesController@getCompanies');

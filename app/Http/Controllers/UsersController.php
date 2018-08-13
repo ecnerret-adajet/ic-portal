@@ -137,8 +137,32 @@ class UsersController extends Controller
         //
     }
 
+    /**
+     * Display Current login user
+     *
+     * @return object
+     */
     public function currentUser()
     {
         return new UserResource(User::find(Auth::user()->id));
+    }
+
+    /**
+     * Portal Disclaimer
+     *
+     * @param Request $request
+     * @param User $user
+     * @return response 202
+     */
+    public function disclaimer(Request $request, User $user)
+    {
+        $this->validate($request,[
+            'agree' => 'required',
+        ]);
+
+        $user->disclaimer = $request->input('agree');
+        $user->save();
+
+        return 'success';
     }
 }

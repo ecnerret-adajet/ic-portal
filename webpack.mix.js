@@ -27,5 +27,6 @@ mix.styles([
         'resources/assets/js/app.js',
         'node_modules/popper.js/dist/popper.js',
         'node_modules/bootstrap/dist/js/bootstrap.min.js',
+        'resources/assets/js/light-bootstrap-dashboard.js',
     ], 'public/js/all.js');
     // .browserSync('http://icportal.local/rolePerms');

@@ -28,6 +28,7 @@ Vue.component('reliever-home', require('./components/RelieverHome.vue'));
 Vue.component('user-home', require('./components/UserHome.vue'));
 Vue.component('user-create', require('./components/UserCreate.vue'));
 Vue.component('roles-permissions', require('./components/RolesPermissions.vue'));
+Vue.component('disclaimer', require('./components/Disclaimer.vue'));
 
 
 const app = new Vue({
