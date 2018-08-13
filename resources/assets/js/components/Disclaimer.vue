@@ -20,7 +20,7 @@
                                     quasi-judicial or any other similar proceedings, without our consent; that you allow us to
                                     embed a tracking system for us to check on your use; and that should you forget your
                                     password or lose access to your account, you will immediately notify us at
-                                    <a href="mailto:itsupport@lafilgroup.com">itsupport@lafilgroup.com</a>.
+                                    <a href="mailto:ic.portal.lafilgroup.com">ic.portal.lafilgroup.com</a>.
                                 </p>
                             </div>
                         </div>
@@ -94,7 +94,7 @@ export default {
 <style scoped>
     .disclaimer-body {
          line-height: 2.5em;
-         text-indent: 50px;
+         /* text-indent: 50px; */
     }
 </style>
 
