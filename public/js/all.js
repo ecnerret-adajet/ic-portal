@@ -67290,7 +67290,7 @@ var staticRenderFns = [
       _c(
         "h3",
         { staticClass: "modal-title", attrs: { id: "disclaimer-Label" } },
-        [_vm._v("Disclaimer")]
+        [_vm._v("Terms and Conditions")]
       )
     ])
   },

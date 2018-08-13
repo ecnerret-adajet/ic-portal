@@ -5,7 +5,7 @@
             <div class="modal-dialog  modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h3 class="modal-title" id="disclaimer-Label">Disclaimer</h3>
+                        <h3 class="modal-title" id="disclaimer-Label">Terms and Conditions</h3>
                     </div>
                     <div class="modal-body">
 
