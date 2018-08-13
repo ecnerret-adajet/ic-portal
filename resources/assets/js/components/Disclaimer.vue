@@ -49,12 +49,6 @@ Vue.use(Toasted)
 
 export default {
 
-    props: {
-        user: {
-            type: Number,
-        }
-    },
-
     data() {
         return {
             errors: []
@@ -72,9 +66,7 @@ export default {
 
     methods: {
         disclaimer() {
-            axios.patch(`/disclaimer/${this.user}`,{
-                'agree' : 1
-            })
+            axios.post('/disclaimer')
             .then(response => {
                 //trigger close modal on success submission
                 $('#disclaimer').modal('hide')

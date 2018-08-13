@@ -67658,13 +67658,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_toasted___default.a);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-
-    props: {
-        user: {
-            type: Number
-        }
-    },
-
     data: function data() {
         return {
             errors: []
@@ -67684,9 +67677,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_toasted___default.a);
         disclaimer: function disclaimer() {
             var _this = this;
 
-            axios.patch('/disclaimer/' + this.user, {
-                'agree': 1
-            }).then(function (response) {
+            axios.post('/disclaimer').then(function (response) {
                 //trigger close modal on success submission
                 $('#disclaimer').modal('hide');
                 Vue.toasted.show("Welcome to assignment portal!", {

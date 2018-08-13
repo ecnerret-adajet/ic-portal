@@ -6,9 +6,10 @@ use Flashy;
 use App\User;
 use App\Company;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Session;
 use jeremykenedy\LaravelRoles\Models\Role;
 use jeremykenedy\LaravelRoles\Models\Permission;
 
@@ -190,8 +191,13 @@ class UsersController extends Controller
      */
     public function disclaimer(Request $request, User $user)
     {
-        $user->disclaimer = $request->input('agree');
-        $user->save();
-        return 'success';
+
+        $randomKey = str_random(10);
+        Session::put('disclaimer', $randomKey);
+
+        if ($request->session()->has('disclaimer')) {
+            return 'success';
+        }
+
     }
 }

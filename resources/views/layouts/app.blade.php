@@ -206,8 +206,10 @@
         </div>
 
         <!-- disclaimer modal -->
-        @if(Auth::user()->disclaimer == 0)
-            <disclaimer :user="{{ Auth::user()->id }}"></disclaimer>
+        @if(!Auth::user()->isAdmin())
+            @if(!Session::has('disclaimer'))
+                <disclaimer></disclaimer>
+            @endif
         @endif
 
     </div><!-- end app -->
