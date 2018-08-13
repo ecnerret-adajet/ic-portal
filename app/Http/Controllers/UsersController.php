@@ -6,6 +6,7 @@ use Flashy;
 use App\User;
 use App\Company;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\UserResource;
 use jeremykenedy\LaravelRoles\Models\Role;
@@ -55,7 +56,7 @@ class UsersController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'password' => 'required|confirmed',
+            'password' => 'required|confirmed|min:6',
             'email' => 'required|email|unique:users,email',
             'role_list' => 'required',
             'company_list' => 'required'
@@ -71,7 +72,7 @@ class UsersController extends Controller
         $user->save();
 
 
-        flashy()->success('Driver has successfully updated!');
+        flashy()->success('User has successfully updated!');
         // return redirect('users');
         return ['redirect' => route('users.index')];
     }
@@ -124,6 +125,39 @@ class UsersController extends Controller
 
         flashy()->success('Driver has successfully updated!');
         return redirect('users/'.$user->id);
+    }
+
+    public function profileEdit(User $user)
+    {
+        if(Gate::denies('profile-edit', $user, Auth::user())) {
+            flashy()->error('Nope, You Cannot Do That!');
+            return back();
+        }
+
+        return view('users.profile',compact('user'));
+    }
+
+    public function profileUpdate(Request $request, User $user)
+    {
+
+        if(Gate::denies('profile-update', $user, Auth::user())) {
+            return response('Unauthorized', 401);
+        }
+
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,'.$user->id,
+            'password' => 'sometimes|confirmed|min:6',
+        ]);
+
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        if(!empty($request->input('password'))) {
+            $user->password = bcrypt($request->input('password'));
+        }
+        $user->save();
+
+         return $user;
     }
 
     /**

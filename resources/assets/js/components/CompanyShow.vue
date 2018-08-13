@@ -272,7 +272,7 @@ export default {
             .then(response => {
                 this.labors[this.findLabor(labor.id)] = response.data
                 labor.status == 0 ? labor.status = 1 : labor.status = 0
-                Vue.toasted.show("Updated Successfully!", {
+                Vue.toasted.show("Successfully Updated!", {
                     theme: "primary",
                     position: "bottom-right",
                     duration : 5000

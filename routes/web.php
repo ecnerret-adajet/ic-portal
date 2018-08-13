@@ -54,6 +54,8 @@ Route::group(['middleware' => ['auth']], function() {
     // User
     Route::get('/currentUser','UsersController@currentUser');
     Route::patch('/disclaimer/{user}','UsersController@disclaimer');
+    Route::get('/profile/edit/{user}','UsersController@profileEdit');
+    Route::patch('/profile/update/{user}','UsersController@profileUpdate');
 
     // Companies or Providers
     Route::get('/getCompanies','CompaniesController@getCompanies');
@@ -78,7 +80,5 @@ Route::group(['middleware' => ['auth']], function() {
 Route::any('{any?}', function ($any = null) {
     if (Auth::check()) {
         return redirect('/home');
-    } else {
-        return redirect('/');
     }
 });

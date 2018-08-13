@@ -64,6 +64,15 @@
                             </a>
                         </li>
 
+                        @if(Auth::user()->hasRole('representative'))
+                        <li class="{{ Request::is('profile/edit*') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ url('profile/edit/'.Auth::user()->id) }}">
+                                <i class="nc-icon nc-circle-09"></i>
+                                <p>Profile</p>
+                            </a>
+                        </li>
+                        @endif
+
                         @role('admin')
                         {{-- <li class="{{ Request::is('approvals*') ? 'active' : '' }}">
                             <a class="nav-link" href="{{ url('/approvals') }}">

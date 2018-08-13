@@ -65865,6 +65865,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -65890,9 +65906,11 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_toasted___default.a);
         profileUpdate: function profileUpdate() {
             var _this = this;
 
-            axios.patch('/profile/update/' + this.user.id, {
-                'email': this.user.email,
-                'password': this.user.password
+            axios.patch("/profile/update/" + this.user.id, {
+                name: this.user.name,
+                email: this.user.email,
+                password: this.user.password,
+                password_confirmation: this.user.password_confirmation
             }).then(function (response) {
                 _this.editing = false;
                 Vue.toasted.show("Successfully Updated!", {
@@ -65919,164 +65937,261 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
+    !_vm.editing
+      ? _c(
+          "div",
+          {
+            staticClass: "alert alert-success alert-with-icon",
+            attrs: { "data-notify": "container" }
+          },
+          [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("span", {
+              staticClass: "nc-icon nc-bell-55",
+              attrs: { "data-notify": "icon" }
+            }),
+            _vm._v(" "),
+            _c("span", { attrs: { "data-notify": "message" } }, [
+              _vm._v("Profile Updated Successfully.")
+            ])
+          ]
+        )
+      : _vm._e(),
+    _vm._v(" "),
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col" }, [
         _c("div", { staticClass: "card" }, [
-          _vm._m(0),
+          _vm._m(1),
           _vm._v(" "),
           _c("div", { staticClass: "content table-responsive" }, [
-            _c("div", { staticClass: "card-body p-4" }, [
-              _c(
-                "div",
-                {
-                  staticClass: "form-group form-row",
-                  class: { " has-danger": _vm.errors.name }
-                },
-                [
-                  _c("div", { staticClass: "col" }, [
-                    _c("label", [_vm._v("Email")]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.user.email,
-                          expression: "user.email"
-                        }
-                      ],
-                      staticClass: "form-control form-control-lg rounded-0",
-                      class: { "is-invalid": _vm.errors.email },
-                      attrs: {
-                        type: "email",
-                        id: "email",
-                        placeholder: "Enter Email"
-                      },
-                      domProps: { value: _vm.user.email },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.user, "email", $event.target.value)
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _vm.errors.email
-                      ? _c("div", { staticClass: "invalid-feedback" }, [
-                          _vm._v(_vm._s(_vm.errors.email[0]))
-                        ])
-                      : _vm._e()
-                  ])
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass: "form-group form-row",
-                  class: { " has-danger": _vm.errors.password }
-                },
-                [
-                  _c("div", { staticClass: "col" }, [
-                    _c("label", [_vm._v("Password")]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.user.password,
-                          expression: "user.password"
-                        }
-                      ],
-                      staticClass: "form-control form-control-lg rounded-0",
-                      class: { "is-invalid": _vm.errors.password },
-                      attrs: {
-                        type: "password",
-                        id: "password",
-                        placeholder: "Enter Password"
-                      },
-                      domProps: { value: _vm.user.password },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.user, "password", $event.target.value)
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _vm.errors.password
-                      ? _c("div", { staticClass: "invalid-feedback" }, [
-                          _vm._v(_vm._s(_vm.errors.password[0]))
-                        ])
-                      : _vm._e()
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col" }, [
-                    _c("label", [_vm._v("Confirm Password")]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.user.password_confirmation,
-                          expression: "user.password_confirmation"
-                        }
-                      ],
-                      staticClass: "form-control form-control-lg rounded-0",
-                      class: { "is-invalid": _vm.errors.password_confirmation },
-                      attrs: {
-                        type: "password",
-                        id: "password_confirm",
-                        placeholder: "Enter Password"
-                      },
-                      domProps: { value: _vm.user.password_confirmation },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(
-                            _vm.user,
-                            "password_confirmation",
-                            $event.target.value
-                          )
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _vm.errors.password_confirmation
-                      ? _c("div", { staticClass: "invalid-feedback" }, [
-                          _vm._v(_vm._s(_vm.errors.password_confirmation[0]))
-                        ])
-                      : _vm._e()
-                  ])
-                ]
-              ),
-              _vm._v(" "),
-              _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col text-right" }, [
+            _vm.user.length != 0
+              ? _c("div", { staticClass: "card-body p-4" }, [
                   _c(
-                    "button",
+                    "div",
                     {
-                      staticClass: "btn btn-primary btn-fill rounded p-3",
-                      staticStyle: { width: "150px" },
-                      on: { click: _vm.profileUpdate }
+                      staticClass: "form-group form-row",
+                      class: { " has-danger": _vm.errors.name }
                     },
                     [
-                      _vm._v(
-                        "\n                        Submit\n                    "
-                      )
+                      _c("div", { staticClass: "col" }, [
+                        _c("label", [_vm._v("Name")]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.user.name,
+                              expression: "user.name"
+                            }
+                          ],
+                          staticClass: "form-control form-control-lg rounded-0",
+                          class: { "is-invalid": _vm.errors.name },
+                          attrs: {
+                            type: "text",
+                            disabled: !_vm.editing,
+                            id: "name",
+                            placeholder: "Enter Name"
+                          },
+                          domProps: { value: _vm.user.name },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.user, "name", $event.target.value)
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm.errors.name
+                          ? _c("div", { staticClass: "invalid-feedback" }, [
+                              _vm._v(_vm._s(_vm.errors.name[0]))
+                            ])
+                          : _vm._e()
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col" }, [
+                        _c("label", [_vm._v("Email")]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.user.email,
+                              expression: "user.email"
+                            }
+                          ],
+                          staticClass: "form-control form-control-lg rounded-0",
+                          class: { "is-invalid": _vm.errors.email },
+                          attrs: {
+                            type: "email",
+                            disabled: !_vm.editing,
+                            id: "email",
+                            placeholder: "Enter Email"
+                          },
+                          domProps: { value: _vm.user.email },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.user, "email", $event.target.value)
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm.errors.email
+                          ? _c("div", { staticClass: "invalid-feedback" }, [
+                              _vm._v(_vm._s(_vm.errors.email[0]))
+                            ])
+                          : _vm._e()
+                      ])
                     ]
-                  )
+                  ),
+                  _vm._v(" "),
+                  _vm.editing
+                    ? _c(
+                        "div",
+                        {
+                          staticClass: "form-group form-row",
+                          class: { " has-danger": _vm.errors.password }
+                        },
+                        [
+                          _c("div", { staticClass: "col" }, [
+                            _c("label", [_vm._v("Password")]),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.user.password,
+                                  expression: "user.password"
+                                }
+                              ],
+                              staticClass:
+                                "form-control form-control-lg rounded-0",
+                              class: { "is-invalid": _vm.errors.password },
+                              attrs: {
+                                type: "password",
+                                id: "password",
+                                placeholder: "Enter Password"
+                              },
+                              domProps: { value: _vm.user.password },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.user,
+                                    "password",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _vm.errors.password
+                              ? _c("div", { staticClass: "invalid-feedback" }, [
+                                  _vm._v(_vm._s(_vm.errors.password[0]))
+                                ])
+                              : _vm._e()
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col" }, [
+                            _c("label", [_vm._v("Confirm Password")]),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.user.password_confirmation,
+                                  expression: "user.password_confirmation"
+                                }
+                              ],
+                              staticClass:
+                                "form-control form-control-lg rounded-0",
+                              class: {
+                                "is-invalid": _vm.errors.password_confirmation
+                              },
+                              attrs: {
+                                type: "password",
+                                id: "password_confirm",
+                                placeholder: "Enter Password"
+                              },
+                              domProps: {
+                                value: _vm.user.password_confirmation
+                              },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.user,
+                                    "password_confirmation",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _vm.errors.password_confirmation
+                              ? _c("div", { staticClass: "invalid-feedback" }, [
+                                  _vm._v(
+                                    _vm._s(_vm.errors.password_confirmation[0])
+                                  )
+                                ])
+                              : _vm._e()
+                          ])
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col text-right" }, [
+                      _vm.editing
+                        ? _c(
+                            "button",
+                            {
+                              staticClass:
+                                "btn btn-primary btn-fill rounded p-3",
+                              staticStyle: { width: "150px" },
+                              on: { click: _vm.profileUpdate }
+                            },
+                            [
+                              _vm._v(
+                                "\n                        Submit\n                    "
+                              )
+                            ]
+                          )
+                        : _c(
+                            "button",
+                            {
+                              staticClass:
+                                "btn btn-secondary btn-fill rounded p-3",
+                              staticStyle: { width: "150px" },
+                              on: {
+                                click: function($event) {
+                                  _vm.editing = true
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                        Edit\n                    "
+                              )
+                            ]
+                          )
+                    ])
+                  ])
                 ])
-              ])
-            ])
+              : _vm._e()
           ])
         ])
       ])
@@ -66084,6 +66199,23 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "aria-hidden": "true",
+          "data-dismiss": "alert"
+        }
+      },
+      [_c("i", { staticClass: "nc-icon nc-simple-remove" })]
+    )
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
