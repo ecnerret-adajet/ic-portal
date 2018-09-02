@@ -123,7 +123,7 @@
                             @elseif(Request::is('rolePerms*'))
                             Roles & Permission
                             @elseif(Request::is('profile/edit*'))
-                                {{ Auth::user()->company['name'] }} Indpendent Provide
+                                {{ Auth::user()->company['name'] }} Indpendent Provider
                             @else
                             Independent Contractual
                             @endif
