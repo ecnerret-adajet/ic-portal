@@ -122,6 +122,8 @@
                             Users
                             @elseif(Request::is('rolePerms*'))
                             Roles & Permission
+                            @elseif(Request::is('profile/edit*'))
+                                {{ Auth::user()->company['name'] }} Indpendent Provide
                             @else
                             Independent Contractual
                             @endif
@@ -166,9 +168,6 @@
                         <nav>
                             <ul class="footer-menu">
                                 <li>
-                                    <a href="#">
-                                        La Filipina Uy Gongco Group of Companies
-                                    </a>
                                 </li>
                             </ul>
                         </nav>

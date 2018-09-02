@@ -100,7 +100,7 @@
                                 <button :disabled="!showNextLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage + 1)"> Next </button>
                             </div>
                             <div class="col-6 text-right">
-                                <span>{{ labors.length }} Labor(s)</span>
+                                <span>{{ labors.length }} Total</span>
                             </div>
                         </div>
 

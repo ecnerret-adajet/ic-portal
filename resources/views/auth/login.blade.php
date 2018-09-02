@@ -32,9 +32,6 @@
     <button type="submit" class="mt-4  btn btn-primary btn-fill btn-block">Sign In</button>
     <a href="{{ route('password.request') }}" class="my-3   btn btn-secondary btn-fill btn-block">Forgot Password ?</a>
 
-    <p class="text-center text-muted small">
-        La Filipina Uy Gongco Group of Companies
-    </p>
 
     </form>
 
