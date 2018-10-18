@@ -47,6 +47,13 @@ Route::group(['middleware' => ['role:admin']], function() {
 });
 
 /**
+ * Public API
+ */
+Route::get('/companiesApi','CompaniesController@getCompanies');
+Route::get('/laborsApi','LaborsController@getLabors');
+
+
+/**
  * Route Group for non-admin user
  */
 Route::group(['middleware' => ['auth']], function() {
